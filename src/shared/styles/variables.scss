@@ -1,0 +1,58 @@
+:root {
+  --theme-bg: var(--color-white);
+  --theme-bg-primary: var(--color-shade);
+  --theme-text: var(--color-black);
+
+  color-scheme: light;
+
+  --color-white: #fff;
+  --color-light: #fef7ee;
+  --color-black: #191b1f;
+  --color-grey: #2a2d32;
+  --color-grey-light: #3A3E44;
+  --color-shade: #F0F6FE;
+
+  --color-shadow: rgb(var(--color-black), 0.9);
+
+  --color-accent: var(--color-blue);
+  --color-bad-accent: #dd524c;
+
+  --color-status-blue: #70a3f3;
+  --color-status-yellow: #f3ce49;
+  --color-status-purple: #b787f5;
+  --color-status-green: #77db89;
+
+  --color-red: #aa2e26;
+  --color-red-light: #f6cccb;
+
+  --color-blue: #3662e3;
+  --color-blue-light: #dee9fc;
+  --color-blue-deep: #2a4dd0;
+  --color-blue-soft: #c4dafb;
+
+  --color-green: #4ca154;
+  --color-green-light: #e2fbe8;
+
+  --color-yellow: #c18d30;
+  --color-yellow-light: #fdf9c9;
+
+  --border: 2px solid var(--color-grey-light);
+
+  --border-radius-l: 40px;
+  --border-radius-m: 12px;
+  --border-radius-s: 8px;
+
+  --font-family-base: 'DM Sans';
+
+  --transition-duration: 0.2s;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --theme-bg: var(--color-black);
+    --theme-bg-primary: var(--color-grey);
+    --theme-text: var(--color-light);
+
+    color-scheme: dark;
+  }
+}

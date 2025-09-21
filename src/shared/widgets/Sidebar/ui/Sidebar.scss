@@ -1,0 +1,18 @@
+.sidebar {
+  min-width: 23.4%;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-inline: 12px;
+  }
+
+  &__header {}
+
+  &__body {
+    flex-grow: 1;
+  }
+
+  &__footer {}
+}

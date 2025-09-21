@@ -1,0 +1,40 @@
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  background-color: var(--theme-bg-primary);
+  border-radius: var(--border-radius-m);
+
+  &__input {
+    appearance: none;
+
+    @include visually-hidden;
+  }
+
+  &__body {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    column-gap: 4px;
+  }
+
+  &__button {
+    display: inline-flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center; 
+    column-gap: 4px;
+    padding-block: 8px;
+    background-color: transparent;
+    border-radius: var(--border-radius-s);
+    transition-duration: var(--transition-duration);
+
+    &.is-active {
+      background-color: var(--theme-bg);
+    }
+
+    @include hover {
+      color: var(--color-accent);
+    }
+  }
+}

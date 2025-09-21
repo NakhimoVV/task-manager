@@ -1,0 +1,10 @@
+.board {
+  background-color: var(--theme-bg-primary);
+  border-radius: var(--border-radius-m);
+  overflow-y: auto;
+
+  &__inner {
+    padding-block: 16px;
+    padding-inline: 12px;
+  }
+}
