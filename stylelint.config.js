@@ -11,7 +11,15 @@ export default {
       [
         {
           groupName: 'Позиционирование',
-          properties: ['position', 'top', 'right', 'bottom', 'left', 'z-index'],
+          properties: [
+            'content',
+            'position',
+            'top',
+            'right',
+            'bottom',
+            'left',
+            'z-index',
+          ],
         },
         {
           groupName: 'Flexbox',

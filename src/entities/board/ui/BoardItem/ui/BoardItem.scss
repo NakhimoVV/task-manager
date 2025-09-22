@@ -1,0 +1,32 @@
+.board-item {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 10px;
+  padding: 8px;
+  border: 2px solid transparent;
+  border-radius: var(--border-radius-l);
+  transition-duration: var(--transition-duration);
+
+  &__circle-image{
+    @include square(32px);
+    @include flex-center;
+
+    border-radius: var(--border-radius-l);
+  }
+
+  @include hover {
+    border-color: var(--color-accent);
+  }
+
+  @container sidebar (width < 190px) {
+    justify-content: center;
+
+    &__name {
+      display: none;
+    }
+  }
+
+  &.is-active {
+    border-color: var(--color-accent);
+  }
+}

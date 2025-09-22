@@ -1,14 +1,35 @@
 .sidebar {
-  min-width: 23.4%;
+//  min-width: 23.4%;
+
+  min-width: 296px;
+  transition-duration: var(--transition-duration);
+
+  @include tablet {
+    min-width: 214px;
+  }
+
+  &.is-collapsed {
+    min-width: 73px;
+  }
 
   &__inner {
     display: flex;
     flex-direction: column;
+    row-gap: 28px;
     height: 100%;
-    padding-inline: 12px;
+    padding-inline: 12px; 
+    container-name: sidebar;
+    container-type: inline-size;
   }
 
-  &__header {}
+  &__header {
+    padding-inline: 4px;
+    padding-top: 6px;
+  }
+
+  &__button {
+
+  }
 
   &__body {
     flex-grow: 1;

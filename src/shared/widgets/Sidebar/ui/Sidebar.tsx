@@ -1,20 +1,32 @@
 import './Sidebar.scss'
 import ThemeSwitcher from '@/shared/ui/ThemeSwitcher'
+import ButtonToggleCollapse from '@/shared/ui/ButtonToggleCollapse'
+import { useCollapse } from '@/shared/hooks/useCollapse.ts'
+import clsx from 'clsx'
+import BoardList from '@/entities/board/ui/BoardList'
 
 type SidebarProps = {}
 
 const Sidebar = (props: SidebarProps) => {
   const {} = props
+  const { isCollapse, toggleCollapse } = useCollapse()
 
   return (
-    <aside className="sidebar">
+    <aside
+      className={clsx('sidebar', {
+        'is-collapsed': isCollapse,
+      })}
+    >
       <div className="sidebar__inner">
-        <header className="sidebar__header"></header>
+        <header className="sidebar__header">
+          <ButtonToggleCollapse
+            className="sidebar__button"
+            isCollapse={isCollapse}
+            toggleCollapse={toggleCollapse}
+          />
+        </header>
         <div className="sidebar__body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, beatae
-          consectetur delectus distinctio fugiat laborum quo rerum vel. Autem
-          facilis harum hic ipsam necessitatibus obcaecati odio quis soluta
-          ullam veritatis.
+          <BoardList />
         </div>
         <footer className="sidebar__footer">
           <ThemeSwitcher />

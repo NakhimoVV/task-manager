@@ -1,47 +1,31 @@
 import { useState, useEffect } from 'react'
 
-type Theme = 'light' | 'dark' | 'auto'
+type Theme = 'light' | 'dark'
 
-export const useTheme = (): [string, (theme: Theme) => void] => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem('theme') as Theme
-    return saved || 'auto'
-  })
-
-  // Определяем реальную тему
-  const actualTheme =
-    theme === 'auto'
-      ? window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light'
-      : theme
+export const useTheme = () => {
+  const localStorageTheme = localStorage.getItem('theme') as Theme
+  const [theme, setTheme] = useState<Theme>(localStorageTheme ?? '')
 
   useEffect(() => {
-    localStorage.setItem('theme', theme)
-
-    if (theme === 'auto') {
-      document.documentElement.removeAttribute('data-theme')
+    if (localStorageTheme) {
+      setTheme(localStorageTheme)
+      document.documentElement.setAttribute('data-theme', localStorageTheme)
     } else {
-      document.documentElement.setAttribute('data-theme', theme)
+      const isPreferDark = window.matchMedia(
+        '(prefers-color-scheme: dark)',
+      ).matches
+      const initialTheme = isPreferDark ? 'dark' : 'light'
+      setTheme(initialTheme)
+      document.documentElement.setAttribute('data-theme', initialTheme)
     }
+  }, [])
 
-    document.documentElement.style.colorScheme = actualTheme
-  }, [theme, actualTheme])
+  function toggleTheme(newTheme?: Theme) {
+    const nextTheme: Theme = newTheme ?? (theme === 'light' ? 'dark' : 'light')
+    setTheme(nextTheme)
+    document.documentElement.setAttribute('data-theme', nextTheme)
+    localStorage.setItem('theme', nextTheme)
+  }
 
-  // Слушаем изменения системной темы
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-
-    const handleChange = () => {
-      if (theme === 'auto') {
-        // Форсируем обновление
-        setTheme((prev) => (prev === 'auto' ? 'auto' : prev))
-      }
-    }
-
-    mediaQuery.addEventListener('change', handleChange)
-    return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [theme])
-
-  return [actualTheme, setTheme]
+  return { theme, toggleTheme }
 }

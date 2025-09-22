@@ -1,10 +1,12 @@
 :root {
+  /* default — light theme */
   --theme-bg: var(--color-white);
   --theme-bg-primary: var(--color-shade);
   --theme-text: var(--color-black);
 
   color-scheme: light;
 
+  /* other preset */
   --color-white: #fff;
   --color-light: #fef7ee;
   --color-black: #191b1f;
@@ -45,14 +47,23 @@
   --font-family-base: 'DM Sans';
 
   --transition-duration: 0.2s;
+
+  --z-index-content: 1000;
+  --z-index-back: 100;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --theme-bg: var(--color-black);
-    --theme-bg-primary: var(--color-grey);
-    --theme-text: var(--color-light);
+:root[data-theme='light'] {
+  --theme-bg: var(--color-white);
+  --theme-bg-primary: var(--color-shade);
+  --theme-text: var(--color-black);
 
-    color-scheme: dark;
-  }
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --theme-bg: var(--color-black);
+  --theme-bg-primary: var(--color-grey);
+  --theme-text: var(--color-light);
+
+  color-scheme: dark;
 }

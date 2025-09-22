@@ -5,6 +5,10 @@
   background-color: var(--theme-bg-primary);
   border-radius: var(--border-radius-m);
 
+  @container sidebar (width < 150px) {
+    background-color: transparent;
+  }
+
   &__input {
     appearance: none;
 
@@ -12,13 +16,38 @@
   }
 
   &__body {
+    position: relative;
     display: flex;
     flex-grow: 1;
     align-items: center;
     column-gap: 4px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: var(--z-index-back);
+      width: 50%;
+      height: 100%;
+      background-color: var(--theme-bg);
+      border-radius: var(--border-radius-s);
+      transition-duration: 0.3s;
+    }
+    
+    @container sidebar (width < 150px) {
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  &--light &__body::after {
+    translate: 100%;
   }
 
   &__button {
+    z-index: var(--z-index-content);
     display: inline-flex;
     flex-grow: 1;
     justify-content: center;
@@ -29,9 +58,19 @@
     border-radius: var(--border-radius-s);
     transition-duration: var(--transition-duration);
 
-    &.is-active {
-      background-color: var(--theme-bg);
+    @container sidebar (width < 150px) {
+      &:not(.is-active),
+      &.is-active > span,{
+        display: none;
+      }
+
+      border: 1px solid transparent;
+
+      @include hover {
+        border-color: var(--color-accent);
+      }
     }
+
 
     @include hover {
       color: var(--color-accent);

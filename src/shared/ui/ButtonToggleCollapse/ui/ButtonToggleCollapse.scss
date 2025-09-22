@@ -1,0 +1,21 @@
+.button-toggle-collapse {
+  position: relative;
+
+  @include square(40px);
+  @include flex-center(true);
+
+  background-color: var(--theme-bg-primary);
+  border: none;
+  border-radius: var(--border-radius-l);
+
+  &::before{
+    content: '';
+
+    @include abs-center;
+    @include square(44px);
+  }
+
+  @include hover {
+    color: var(--color-accent);
+  }
+}

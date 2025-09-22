@@ -1,20 +1,21 @@
 import './ThemeSwitcher.scss'
-import MoonIcon from '@/shared/assets/icons/Moon_fill.svg?react'
-import SunIcon from '@/shared/assets/icons/Sun_fill.svg?react'
+import IconMoon from '@/shared/assets/icons/Moon_fill.svg?react'
+import IconSun from '@/shared/assets/icons/Sun_fill.svg?react'
 import { useTheme } from '@/shared/hooks/useTheme.ts'
 import clsx from 'clsx'
 
 const ThemeSwitcher = () => {
   const switcherId = 'theme-switcher'
 
-  const [theme, setTheme] = useTheme()
-
-  const handleToggle = (newTheme: 'light' | 'dark') => {
-    setTheme(newTheme)
-  }
+  const { theme, toggleTheme } = useTheme()
 
   return (
-    <label className="theme-switcher" htmlFor={switcherId}>
+    <label
+      className={clsx('theme-switcher', {
+        'theme-switcher--light': theme === 'light',
+      })}
+      htmlFor={switcherId}
+    >
       <span className="visually-hidden">Switch theme</span>
       <input
         className="theme-switcher__input"
@@ -22,7 +23,9 @@ const ThemeSwitcher = () => {
         id={switcherId}
         role="switch"
         checked={theme === 'dark'}
-        onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+        onChange={(event) =>
+          toggleTheme(event.target.checked ? 'dark' : 'light')
+        }
       />
       <span className="theme-switcher__body">
         <span
@@ -30,16 +33,16 @@ const ThemeSwitcher = () => {
             'is-active': theme === 'dark',
           })}
         >
-          <MoonIcon width={24} height={24} />
-          Dark
+          <IconMoon width={24} height={24} />
+          <span>Dark</span>
         </span>
         <span
           className={clsx('theme-switcher__button', {
             'is-active': theme === 'light',
           })}
         >
-          <SunIcon width={24} height={24} />
-          Light
+          <IconSun width={24} height={24} />
+          <span>Light</span>
         </span>
       </span>
     </label>
