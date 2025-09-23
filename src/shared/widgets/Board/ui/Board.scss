@@ -1,4 +1,5 @@
 .board {
+  flex: 1 1 auto;
   background-color: var(--theme-bg-primary);
   border-radius: var(--border-radius-m);
   overflow-y: auto;
@@ -6,5 +7,56 @@
   &__inner {
     padding-block: 16px;
     padding-inline: 12px;
+  }
+
+  &__body {
+    --gridColumn: 4;
+
+    display: grid;
+    grid-template-columns: repeat(var(--gridColumn), 1fr);
+    column-gap: 12px;
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+
+    &--backlog {
+      --statusColor: var(--color-status-blue);
+    }
+
+    &--in-progress {
+      --statusColor: var(--color-status-yellow);
+    }
+
+    &--in-review {
+      --statusColor: var(--color-status-purple);
+    }
+
+    &--completed{
+      --statusColor: var(--color-status-green);
+    }
+
+    &-status {
+      @include square(8px);
+
+      display: inline-flex;
+      background-color: var(--statusColor);
+      border-radius: var(--border-radius-l);
+    }
+
+    &-header {
+      display: inline-flex;
+      align-items: center;
+      column-gap: 8px;
+      font-weight: 700;
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+    }
   }
 }

@@ -10,5 +10,6 @@ function App() {
     </>
   )
 }
+// TODO: axios, zustand, react-beautiful-dnd
 
 export default App

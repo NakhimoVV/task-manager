@@ -12,7 +12,7 @@ type ButtonToggleCollapseProps = {
 const ButtonToggleCollapse = (props: ButtonToggleCollapseProps) => {
   const { className, isCollapse, toggleCollapse } = props
 
-  const title = isCollapse ? 'Collapse menu' : 'Expand menu'
+  const title = isCollapse ? 'Expand menu' : 'Collapse menu'
 
   return (
     <button

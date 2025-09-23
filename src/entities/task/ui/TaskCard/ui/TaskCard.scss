@@ -1,0 +1,36 @@
+.task-card {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  padding: 12px;
+  background-color: var(--theme-bg);
+  border-radius: var(--border-radius-m);
+
+  &__image {
+    &-wrapper {
+      display: flex;
+      min-height: 77px;
+      border-radius: var(--border-radius-s);
+      overflow: hidden;
+    }
+
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &__tag {
+    &-list {
+      display: inline-flex;
+      gap: 8px;
+    }
+
+    &-item {
+      padding: 2px 4px;
+      font-size: 8px;
+      text-transform: capitalize;
+      color: var(--color-green);// изменяемое
+      background-color: var(--color-green-light);// изменяемое
+      border-radius: var(--border-radius-xs);
+    }
+  }
+}
