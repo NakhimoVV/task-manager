@@ -1,45 +1,21 @@
 import './BoardList.scss'
 import BoardItem from '@/entities/board/ui/BoardItem'
 import IconAddRound from '@/shared/assets/icons/Add_round_fill.svg?react'
+import { useBoardStore } from '@/entities/board/model/store.ts'
+import { useEffect } from 'react'
 
-type BoardListProps = {}
+const BoardList = () => {
+  const list = useBoardStore((state) => state.boards)
+  const fetchBoards = useBoardStore((state) => state.fetchBoards)
 
-const list = [
-  {
-    name: 'Simple Card Board',
-    emoji: '🛠️',
-    color: '#F9E3E2',
-    id: 0,
-    link: 'https://raw.githubusercontent.com/devchallenges-io/curriculum/refs/heads/main/4-frontend-libaries/challenges/group_1/data/task-manager/board-0.json',
-  },
-  {
-    name: 'Frontend Board',
-    emoji: '⚙️',
-    color: '#F8D8B0',
-    id: 1,
-    link: 'https://raw.githubusercontent.com/devchallenges-io/curriculum/refs/heads/main/4-frontend-libaries/challenges/group_1/data/task-manager/board-1.json',
-  },
-  {
-    name: 'Design Board',
-    emoji: '🚀',
-    color: '#FCF097',
-    id: 2,
-    link: 'https://raw.githubusercontent.com/devchallenges-io/curriculum/refs/heads/main/4-frontend-libaries/challenges/group_1/data/task-manager/board-2.json',
-  },
-  {
-    name: 'Learning Board',
-    emoji: '⏰',
-    color: '#C4DAFB',
-    id: 3,
-    link: 'https://raw.githubusercontent.com/devchallenges-io/curriculum/refs/heads/main/4-frontend-libaries/challenges/group_1/data/task-manager/board-3.json',
-  },
-]
+  // TODO: добавить отображение isLoading & error
 
-const BoardList = (props: BoardListProps) => {
-  const {} = props
+  useEffect(() => {
+    void fetchBoards()
+  }, [fetchBoards])
 
   return (
-    <div className="board-list">
+    <nav className="board-list">
       <ul className="board-list__items">
         {list.map((item) => (
           <BoardItem className="board-list__item" item={item} key={item.id} />
@@ -51,7 +27,7 @@ const BoardList = (props: BoardListProps) => {
           <span>Add new board</span>
         </button>
       </div>
-    </div>
+    </nav>
   )
 }
 

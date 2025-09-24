@@ -1,6 +1,6 @@
 import '@/shared/styles'
-import Sidebar from '@/shared/widgets/Sidebar'
-import Board from '@/shared/widgets/Board'
+import Sidebar from '@/widgets/Sidebar'
+import Board from '@/widgets/Board'
 
 function App() {
   return (

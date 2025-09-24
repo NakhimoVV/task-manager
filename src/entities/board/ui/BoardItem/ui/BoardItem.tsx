@@ -9,7 +9,7 @@ type BoardItemProps = {
 
 const BoardItem = (props: BoardItemProps) => {
   const { className, item } = props
-
+  // TODO: button in li
   return (
     <li className={clsx(className, 'board-item')}>
       <span
