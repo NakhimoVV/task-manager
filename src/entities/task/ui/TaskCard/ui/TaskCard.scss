@@ -25,11 +25,14 @@
     }
 
     &-item {
+      --colorText: var(--color-blue);
+      --colorBackground: var(--color-blue-light);
+
       padding: 2px 4px;
       font-size: 8px;
       text-transform: capitalize;
-      color: var(--color-green);// изменяемое
-      background-color: var(--color-green-light);// изменяемое
+      color: var(--colorText);
+      background-color: var(--colorBackground);
       border-radius: var(--border-radius-xs);
     }
   }

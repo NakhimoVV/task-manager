@@ -1,0 +1,24 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  transition-duration: var(--transition-duration);
+
+  &--add-task {
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px;
+    color: var(--color-blue-deep);
+    background-color: var(--color-blue-soft);
+    border: none;
+    border-radius: var(--border-radius-m);
+
+    @include hover {
+      color: var(--color-blue-soft);
+      background-color: var(--color-blue-deep);
+    }
+  }
+
+  &__icon {
+    display: flex;
+  }
+}

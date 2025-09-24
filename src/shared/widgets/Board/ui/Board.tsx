@@ -2,6 +2,7 @@ import './Board.scss'
 import type { Status, Task } from '@/entities/task/model/types.ts'
 import clsx from 'clsx'
 import TaskCard from '@/entities/task/ui/TaskCard'
+import Button from '@/shared/ui/Button'
 
 type BoardProps = {}
 type ColumnType = { key: Status; title: string }
@@ -117,7 +118,9 @@ const Board = (props: BoardProps) => {
                   )}
                 </div>
                 {key === 'backlog' && (
-                  <footer className="board__column-actions">Add TASK</footer>
+                  <footer className="board__column-actions">
+                    <Button label="Add new task card" mode="add-task" />
+                  </footer>
                 )}
               </div>
             )
