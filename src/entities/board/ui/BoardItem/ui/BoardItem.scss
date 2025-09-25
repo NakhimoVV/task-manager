@@ -1,11 +1,27 @@
 .board-item {
-  display: inline-flex;
-  align-items: center;
-  column-gap: 10px;
-  padding: 6px;
-  border: 2px solid transparent;
-  border-radius: var(--border-radius-l);
-  transition-duration: var(--transition-duration);
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 10px;
+    width: 100%;
+    padding: 6px;
+    background-color: transparent;
+    border: 2px solid transparent;
+    border-radius: var(--border-radius-l);
+    transition-duration: var(--transition-duration);
+
+    @container sidebar (width < 190px) {
+      justify-content: center;
+    }
+
+    @include hover {
+      border-color: var(--color-accent);
+    }
+
+    &.is-selected {
+      border-color: var(--color-accent);
+    }
+  }
 
   &__circle-image{
     @include square(32px);
@@ -14,19 +30,9 @@
     border-radius: var(--border-radius-l);
   }
 
-  @include hover {
-    border-color: var(--color-accent);
-  }
-
   @container sidebar (width < 190px) {
-    justify-content: center;
-
     &__name {
       display: none;
     }
-  }
-
-  &.is-active {
-    border-color: var(--color-accent);
   }
 }

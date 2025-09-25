@@ -12,7 +12,7 @@ type BoardStore = {
   selectBoard: (id: number) => void
 }
 
-export const useBoardStore = create<BoardStore>((set, get) => ({
+export const useBoardStore = create<BoardStore>((set) => ({
   boards: [],
   selectedBoardId: null,
   isLoading: false,

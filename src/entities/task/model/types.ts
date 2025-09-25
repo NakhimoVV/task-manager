@@ -11,3 +11,8 @@ export type Task = {
 export type Status = 'backlog' | 'in-progress' | 'in-review' | 'completed'
 
 export type Tag = (typeof tagList)[number]
+
+export type TasksFromApi = {
+  id: number
+  tasks: Task[]
+}
