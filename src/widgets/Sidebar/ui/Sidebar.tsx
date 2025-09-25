@@ -5,10 +5,7 @@ import { useCollapse } from '@/shared/hooks/useCollapse.ts'
 import clsx from 'clsx'
 import BoardList from '@/entities/board/ui/BoardList'
 
-type SidebarProps = {}
-
-const Sidebar = (props: SidebarProps) => {
-  const {} = props
+const Sidebar = () => {
   const { isCollapse, toggleCollapse } = useCollapse()
 
   return (

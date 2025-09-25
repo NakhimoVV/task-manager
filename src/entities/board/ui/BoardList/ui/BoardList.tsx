@@ -4,15 +4,17 @@ import IconAddRound from '@/shared/assets/icons/Add_round_fill.svg?react'
 import { useBoardStore } from '@/entities/board/model/store.ts'
 import { useEffect } from 'react'
 import { useTaskStore } from '@/entities/task/model/store.ts'
+import { toast } from 'sonner'
 
 const BoardList = () => {
   const list = useBoardStore((state) => state.boards)
-  const fetchBoards = useBoardStore((state) => state.fetchBoards)
   const selectedBoardId = useBoardStore((state) => state.selectedBoardId)
+  const isLoading = useBoardStore((state) => state.isLoading)
+  const error = useBoardStore((state) => state.errorMessage)
+  const fetchBoards = useBoardStore((state) => state.fetchBoards)
   const fetchTasks = useTaskStore((state) => state.fetchTasks)
-  const selectBoard = list.find((board) => board.id === selectedBoardId)
 
-  // TODO: добавить отображение isLoading & error
+  const selectBoard = list.find((board) => board.id === selectedBoardId)
 
   useEffect(() => {
     void fetchBoards()
@@ -23,6 +25,16 @@ const BoardList = () => {
       void fetchTasks(selectBoard.link, selectBoard.name)
     }
   }, [selectBoard, fetchTasks])
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+  }, [error])
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <nav className="board-list">

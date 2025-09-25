@@ -4,6 +4,12 @@ import clsx from 'clsx'
 import TaskCard from '@/entities/task/ui/TaskCard'
 import Button from '@/shared/ui/Button'
 import { useTaskStore } from '@/entities/task/model/store.ts'
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  type DropResult,
+} from '@hello-pangea/dnd'
 
 type BoardProps = {}
 type ColumnType = { key: Status; title: string }
@@ -18,48 +24,75 @@ const columns: ColumnType[] = [
 const Board = (props: BoardProps) => {
   const {} = props
   const tasks = useTaskStore((state) => state.tasks)
-  const isLoading = useTaskStore((state) => state.isLoading)
 
-  if (isLoading) {
-    return <div>Loading...</div>
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result
+    if (!destination) return // бросили за пределами
+
+    // TODO: здесь логика обновления состояния (перемещение)
+    console.log('Moved from', source, 'to', destination)
   }
 
   return (
     <main className="board">
       <div className="board__inner">
-        <section className="board__body">
-          {columns.map(({ key, title }) => {
-            const filteredTasks = tasks.filter((task) => task.status === key)
+        <DragDropContext onDragEnd={onDragEnd}>
+          <section className="board__body">
+            {columns.map(({ key, title }) => {
+              const filteredTasks = tasks.filter((task) => task.status === key)
 
-            return (
-              <div
-                className={clsx('board__column', {
-                  [`board__column--${key}`]: key,
-                })}
-                key={key}
-              >
-                <header className="board__column-header">
-                  <span className="board__column-status"></span>
-                  <span>{`${title} (${filteredTasks.length})`}</span>
-                </header>
-                <div className="board__column-body">
-                  {filteredTasks.length > 0 ? (
-                    filteredTasks.map((task) => (
-                      <TaskCard task={task} key={task.id} />
-                    ))
-                  ) : (
-                    <p>No tasks</p>
+              return (
+                <div
+                  className={clsx('board__column', {
+                    [`board__column--${key}`]: key,
+                  })}
+                  key={key}
+                >
+                  <header className="board__column-header">
+                    <span className="board__column-status"></span>
+                    <span>{`${title} (${filteredTasks.length})`}</span>
+                  </header>
+                  <Droppable droppableId={key}>
+                    {(provided) => (
+                      <div
+                        className="board__column-body"
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                      >
+                        {filteredTasks.length > 0 ? (
+                          filteredTasks.map((task, index) => (
+                            <Draggable
+                              draggableId={task.id.toString()}
+                              index={index}
+                              key={task.id}
+                            >
+                              {(provided) => (
+                                <TaskCard
+                                  task={task}
+                                  ref={provided.innerRef}
+                                  draggableProps={provided.draggableProps}
+                                  dragHandleProps={provided.dragHandleProps}
+                                />
+                              )}
+                            </Draggable>
+                          ))
+                        ) : (
+                          <p>No tasks</p>
+                        )}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                  {key === 'backlog' && (
+                    <footer className="board__column-actions">
+                      <Button label="Add new task card" mode="add-task" />
+                    </footer>
                   )}
                 </div>
-                {key === 'backlog' && (
-                  <footer className="board__column-actions">
-                    <Button label="Add new task card" mode="add-task" />
-                  </footer>
-                )}
-              </div>
-            )
-          })}
-        </section>
+              )
+            })}
+          </section>
+        </DragDropContext>
       </div>
     </main>
   )
