@@ -24,13 +24,28 @@ const columns: ColumnType[] = [
 const Board = (props: BoardProps) => {
   const {} = props
   const tasks = useTaskStore((state) => state.tasks)
+  const moveTask = useTaskStore((state) => state.moveTask)
 
   const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result
-    if (!destination) return // бросили за пределами
+    const { source, destination, draggableId } = result
+    if (!destination) {
+      return
+    }
 
-    // TODO: здесь логика обновления состояния (перемещение)
-    console.log('Moved from', source, 'to', destination)
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      return
+    }
+
+    moveTask(
+      source.droppableId,
+      source.index,
+      destination.droppableId,
+      destination.index,
+      draggableId,
+    )
   }
 
   return (
@@ -67,12 +82,13 @@ const Board = (props: BoardProps) => {
                               key={task.id}
                             >
                               {(provided) => (
-                                <TaskCard
-                                  task={task}
+                                <div
                                   ref={provided.innerRef}
-                                  draggableProps={provided.draggableProps}
-                                  dragHandleProps={provided.dragHandleProps}
-                                />
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  <TaskCard task={task} />
+                                </div>
                               )}
                             </Draggable>
                           ))

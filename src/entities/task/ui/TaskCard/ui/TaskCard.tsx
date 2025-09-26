@@ -1,24 +1,16 @@
 import './TaskCard.scss'
 import type { Task } from '@/entities/task/model/types.ts'
 import tagColors from '@/entities/board/model/tagColors.ts'
-import { type CSSProperties, forwardRef } from 'react'
-
+import { type CSSProperties } from 'react'
 type TaskCardProps = {
   task: Task
-  draggableProps: any
-  dragHandleProps: any
 }
 
-const TaskCard = forwardRef<HTMLDivElement, TaskCardProps>((props, ref) => {
-  const { task, draggableProps, dragHandleProps } = props
+const TaskCard = (props: TaskCardProps) => {
+  const { task } = props
 
   return (
-    <article
-      className="task-card"
-      ref={ref}
-      {...draggableProps}
-      {...dragHandleProps}
-    >
+    <article className="task-card">
       {task.background && (
         <div className="task-card__image-wrapper">
           <img
@@ -54,6 +46,6 @@ const TaskCard = forwardRef<HTMLDivElement, TaskCardProps>((props, ref) => {
       </div>
     </article>
   )
-})
+}
 
 export default TaskCard
