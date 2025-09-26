@@ -11,7 +11,6 @@ import {
   type DropResult,
 } from '@hello-pangea/dnd'
 
-type BoardProps = {}
 type ColumnType = { key: Status; title: string }
 
 const columns: ColumnType[] = [
@@ -21,21 +20,13 @@ const columns: ColumnType[] = [
   { key: 'completed', title: 'Completed' },
 ]
 
-const Board = (props: BoardProps) => {
-  const {} = props
+const Board = () => {
   const tasks = useTaskStore((state) => state.tasks)
   const moveTask = useTaskStore((state) => state.moveTask)
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result
     if (!destination) {
-      return
-    }
-
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    ) {
       return
     }
 
