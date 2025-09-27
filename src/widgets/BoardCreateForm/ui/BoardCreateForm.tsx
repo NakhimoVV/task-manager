@@ -8,6 +8,7 @@ const BoardCreateForm = (props: BoardCreateFormProps) => {
 
   return (
     <form className="board-create-form">
+      {/*TODO: Разобраться с полями*/}
       <label htmlFor="">
         <input id="" name="" />
       </label>
@@ -16,8 +17,8 @@ const BoardCreateForm = (props: BoardCreateFormProps) => {
         <input type="radio" id="" name="" />
       </label>
       <div className="board-create-form__actions">
-        <Button label="Create board" />
-        <Button label="Cancel" />
+        <Button label="Create board" type="submit" mode="form-button" />
+        <Button label="Cancel" type="reset" mode="form-button" />
       </div>
     </form>
   )

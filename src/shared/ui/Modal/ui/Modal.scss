@@ -9,10 +9,34 @@
   }
 
   &__body {
+    display: grid;
+    row-gap: 30px;
     padding-inline: 32px;
     padding-top: 25px; 
     padding-bottom: 32px;
     background-color: var(--theme-bg-primary);
     border-radius: var(--border-radius-m);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__button-close {
+    @include flex-center(true);
+
+    position: relative;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+
+    &::before {
+      content: '';
+
+      @include abs-center;
+      @include square(44px)
+    }
   }
 }

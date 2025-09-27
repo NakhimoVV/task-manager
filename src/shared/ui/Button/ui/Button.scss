@@ -1,6 +1,11 @@
 .button {
   display: inline-flex;
   align-items: center;
+  column-gap: 12px;
+  padding: 8px 12px;
+  background-color: transparent;
+  border: none;
+  border-radius: var(--border-radius-l);
   transition-duration: var(--transition-duration);
 
   &--add-task {
@@ -18,7 +23,31 @@
     }
   }
 
+  &--form-button {
+    padding-inline: 24px;
+
+    @include hover {
+      color: var(--color-blue);
+      background-color: var(--color-blue-soft);
+      border-color: var(--color-blue-soft);
+    }
+  }
+
+  &--submit {
+    background-color: var(--color-blue);
+  }
+
+  &--reset {
+    line-height: 1.429;
+    color: var(--color-silver);
+    border: 2px solid var(--color-silver);
+  }
+
   &__icon {
     display: flex;
+
+    &:empty {
+      @include visually-hidden;
+    }
   }
 }

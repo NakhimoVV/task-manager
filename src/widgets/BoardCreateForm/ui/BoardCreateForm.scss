@@ -1,2 +1,10 @@
 .board-create-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+
+  &__actions {
+    display: inline-flex;
+    column-gap: 12px;
+  }
 }

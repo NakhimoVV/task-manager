@@ -1,6 +1,7 @@
 import './Modal.scss'
 import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+import IconClose from '@/shared/assets/icons/Close_round.svg?react'
 
 type ModalProps = {
   title: string
@@ -25,8 +26,12 @@ const Modal = (props: ModalProps) => {
         >
           <header className="modal__header">
             <h2 className="modal__title">{title}</h2>
-            <button className="modal__close" type="button" onClick={onClose}>
-              X
+            <button
+              className="modal__button-close"
+              type="button"
+              onClick={onClose}
+            >
+              <IconClose width={24} height={24} />
             </button>
           </header>
           <div className="modal__children">{children}</div>
