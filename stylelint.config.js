@@ -81,6 +81,8 @@ export default {
             'padding',
             'padding-block',
             'padding-inline',
+            'padding-top',
+            'padding-bottom',
           ],
         },
         {

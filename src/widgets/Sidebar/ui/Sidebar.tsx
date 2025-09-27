@@ -3,7 +3,7 @@ import ThemeSwitcher from '@/shared/ui/ThemeSwitcher'
 import ButtonToggleCollapse from '@/shared/ui/ButtonToggleCollapse'
 import { useCollapse } from '@/shared/hooks/useCollapse.ts'
 import clsx from 'clsx'
-import BoardList from '@/entities/board/ui/BoardList'
+import BoardList from '@/widgets/BoardList'
 
 const Sidebar = () => {
   const { isCollapse, toggleCollapse } = useCollapse()

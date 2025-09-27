@@ -1,0 +1,18 @@
+.modal {
+  &__backdrop {
+    position: fixed;
+    z-index: var(--z-index-modal);
+    background-color: rgb(var(--color-black-rgb) / 90%);
+    inset: 0; 
+
+    @include flex-center;
+  }
+
+  &__body {
+    padding-inline: 32px;
+    padding-top: 25px; 
+    padding-bottom: 32px;
+    background-color: var(--theme-bg-primary);
+    border-radius: var(--border-radius-m);
+  }
+}

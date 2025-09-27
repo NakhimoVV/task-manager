@@ -5,6 +5,7 @@ import { useBoardStore } from '@/entities/board/model/store.ts'
 import { useEffect } from 'react'
 import { useTaskStore } from '@/entities/task/model/store.ts'
 import { toast } from 'sonner'
+import { useModalStore } from '@/shared/store/ModalStore.ts'
 
 const BoardList = () => {
   const list = useBoardStore((state) => state.boards)
@@ -15,6 +16,7 @@ const BoardList = () => {
   const setTasks = useTaskStore((state) => state.setTasks)
   const fetchTasksForBoard = useBoardStore((state) => state.fetchTasksForBoard)
   const tasksCache = useBoardStore((state) => state.tasksByBoard)
+  const { openModal } = useModalStore()
 
   useEffect(() => {
     void fetchBoards()
@@ -57,7 +59,11 @@ const BoardList = () => {
         ))}
       </ul>
       <div className="board-list__actions">
-        <button className="board-list__button" type="button">
+        <button
+          className="board-list__button"
+          type="button"
+          onClick={() => openModal('createBoard')}
+        >
           <IconAddRound width={24} height={24} />
           <span>Add new board</span>
         </button>

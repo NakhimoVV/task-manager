@@ -10,11 +10,10 @@
   --color-white: #fff;
   --color-light: #fef7ee;
   --color-black: #191b1f;
+  --color-black-rgb: 25 27 31;
   --color-grey: #2a2d32;
   --color-grey-light: #3A3E44;
   --color-shade: #F0F6FE;
-
-  --color-shadow: rgb(var(--color-black), 0.9);
 
   --color-accent: var(--color-blue);
   --color-bad-accent: #dd524c;
@@ -49,8 +48,9 @@
 
   --transition-duration: 0.2s;
 
-  --z-index-content: 1000;
-  --z-index-back: 100;
+  --z-index-modal: 1000;
+  --z-index-content: 100;
+  --z-index-back: 10;
 }
 
 :root[data-theme='light'] {
