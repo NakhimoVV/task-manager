@@ -12,19 +12,27 @@ const BoardList = () => {
   const isLoading = useBoardStore((state) => state.isLoading)
   const error = useBoardStore((state) => state.errorMessage)
   const fetchBoards = useBoardStore((state) => state.fetchBoards)
-  const fetchTasks = useTaskStore((state) => state.fetchTasks)
-
-  const selectBoard = list.find((board) => board.id === selectedBoardId)
+  const setTasks = useTaskStore((state) => state.setTasks)
+  const fetchTasksForBoard = useBoardStore((state) => state.fetchTasksForBoard)
+  const tasksCache = useBoardStore((state) => state.tasksByBoard)
 
   useEffect(() => {
     void fetchBoards()
   }, [fetchBoards])
 
   useEffect(() => {
-    if (selectBoard) {
-      void fetchTasks(selectBoard.link, selectBoard.name)
+    if (selectedBoardId === undefined) {
+      return
     }
-  }, [selectBoard, fetchTasks])
+
+    const cached = tasksCache[selectedBoardId]
+    if (cached) {
+      setTasks(cached)
+      return
+    }
+
+    void fetchTasksForBoard(selectedBoardId)
+  }, [selectedBoardId, tasksCache, setTasks, fetchTasksForBoard])
 
   useEffect(() => {
     if (error) {
@@ -43,7 +51,7 @@ const BoardList = () => {
           <BoardItem
             className="board-list__item"
             item={item}
-            selectedId={selectedBoardId ?? 0}
+            selectedId={selectedBoardId}
             key={item.id}
           />
         ))}

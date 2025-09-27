@@ -10,6 +10,7 @@ import {
   Droppable,
   type DropResult,
 } from '@hello-pangea/dnd'
+import { useBoardStore } from '@/entities/board/model/store.ts'
 
 type ColumnType = { key: Status; title: string }
 
@@ -23,6 +24,8 @@ const columns: ColumnType[] = [
 const Board = () => {
   const tasks = useTaskStore((state) => state.tasks)
   const moveTask = useTaskStore((state) => state.moveTask)
+  const selectedBoardId = useBoardStore((state) => state.selectedBoardId)
+  const setTasksForBoard = useBoardStore((state) => state.setTasksForBoard)
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result
@@ -37,6 +40,11 @@ const Board = () => {
       destination.index,
       draggableId,
     )
+
+    if (selectedBoardId !== undefined) {
+      const updatedTasks = useTaskStore.getState().tasks
+      setTasksForBoard(selectedBoardId, updatedTasks)
+    }
   }
 
   return (

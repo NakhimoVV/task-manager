@@ -1,8 +1,7 @@
 import './BoardItem.scss'
-import clsx from 'clsx'
 import type { Board } from '@/entities/board/model/types.ts'
-import { useTaskStore } from '@/entities/task/model/store.ts'
 import { useBoardStore } from '@/entities/board/model/store.ts'
+import clsx from 'clsx'
 
 type BoardItemProps = {
   className?: string
@@ -12,12 +11,10 @@ type BoardItemProps = {
 
 const BoardItem = (props: BoardItemProps) => {
   const { className, item, selectedId } = props
-  const fetchTasks = useTaskStore((state) => state.fetchTasks)
   const selectBoard = useBoardStore((state) => state.selectBoard)
 
   const handleClick = () => {
     selectBoard(item.id)
-    void fetchTasks(item.link, item.name)
   }
 
   return (

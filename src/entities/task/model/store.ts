@@ -1,14 +1,14 @@
-import type { Status, Task, TasksFromApi } from '@/entities/task/model/types.ts'
+import type { Status, Task } from '@/entities/task/model/types.ts'
 import { create } from 'zustand'
-import { getErrorMessage } from '@/shared/lib/getErrorMessage.ts'
-import { getTasks } from '@/entities/task/api/getTasks.ts'
+
 import { createJSONStorage, persist } from 'zustand/middleware'
 
 type TaskStore = {
   tasks: Task[]
   isLoading: boolean
   errorMessage: string | null
-  fetchTasks: (url: string, boardName: string) => Promise<void>
+  setTasks: (tasks: Task[]) => void
+
   changeStatus: (taskId: number, newStatus: Status) => void
   moveTask: (
     sourceId: string,
@@ -26,17 +26,7 @@ export const useTaskStore = create<TaskStore>()(
       isLoading: false,
       errorMessage: null,
 
-      fetchTasks: async (url, boardName) => {
-        set({ isLoading: true, errorMessage: null })
-        try {
-          const data: TasksFromApi = await getTasks(url, boardName)
-          set({ tasks: data.tasks })
-        } catch (error) {
-          set({ errorMessage: getErrorMessage(error) })
-        } finally {
-          set({ isLoading: false })
-        }
-      },
+      setTasks: (tasks) => set({ tasks }),
 
       changeStatus: (taskId, newStatus) => {
         const updatedTasks = get().tasks.map((task) =>
