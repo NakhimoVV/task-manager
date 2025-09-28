@@ -2,16 +2,16 @@ import './Button.scss'
 import clsx from 'clsx'
 import IconPlus from '@/shared/assets/icons/Add_round.svg?react'
 import IconDone from '@/shared/assets/icons/Done_round.svg?react'
+import type { ButtonHTMLAttributes } from 'react'
 
-type ButtonProps = {
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string
   mode?: 'add-task' | 'form-button'
   label: string
-  type?: 'button' | 'submit' | 'reset'
 }
 
 const Button = (props: ButtonProps) => {
-  const { className, mode, label, type = 'button' } = props
+  const { className, mode, label, type = 'button', ...rest } = props
 
   return (
     <button
@@ -21,6 +21,7 @@ const Button = (props: ButtonProps) => {
         'button--reset': type === 'reset',
       })}
       type={type}
+      {...rest}
     >
       <span className="button__label">{label}</span>
       <span className="button__icon">

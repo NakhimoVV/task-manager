@@ -2,6 +2,7 @@ import './BoardItem.scss'
 import type { Board } from '@/entities/board/model/types.ts'
 import { useBoardStore } from '@/entities/board/model/store.ts'
 import clsx from 'clsx'
+import { getImageByEmoji } from '@/shared/config/BOARD_LOGOS.ts'
 
 type BoardItemProps = {
   className?: string
@@ -25,12 +26,14 @@ const BoardItem = (props: BoardItemProps) => {
         })}
         onClick={handleClick}
       >
-        <span
-          className="board-item__circle-image"
-          style={{ backgroundColor: item.color }}
-        >
-          {item.emoji}
-        </span>
+        <img
+          className="board-item__logo"
+          src={getImageByEmoji(item.emoji)}
+          alt={item.emoji}
+          width={32}
+          height={32}
+          loading="lazy"
+        />
         <span className="board-item__name">{item.name}</span>
       </button>
     </li>

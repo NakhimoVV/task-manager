@@ -23,13 +23,6 @@
     }
   }
 
-  &__circle-image{
-    @include square(32px);
-    @include flex-center;
-
-    border-radius: var(--border-radius-l);
-  }
-
   @container sidebar (width < 190px) {
     &__name {
       display: none;
