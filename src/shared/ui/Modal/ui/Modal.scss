@@ -1,22 +1,24 @@
 .modal {
-  &__backdrop {
-    position: fixed;
-    z-index: var(--z-index-modal);
-    background-color: rgb(var(--color-black-rgb) / 90%);
-    inset: 0; 
+  max-width: 520px;
+  padding: 0;
+  background-color: var(--theme-bg-primary);
+  border: none;
+  border-radius: var(--border-radius-m);
 
-    @include flex-center;
+  &[hidden] {
+    display: none;
   }
 
-  &__body {
+  &::backdrop {
+    background-color: rgb(var(--color-black-rgb) / 90%);
+  }
+
+  &__content {
     display: grid;
     row-gap: 30px;
-    max-width: 520px;
     padding-inline: 32px;
-    padding-top: 25px; 
+    padding-top: 25px;
     padding-bottom: 32px;
-    background-color: var(--theme-bg-primary);
-    border-radius: var(--border-radius-m);
   }
 
   &__header {
