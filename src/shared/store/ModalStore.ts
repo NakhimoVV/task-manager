@@ -1,6 +1,6 @@
 import { create } from 'zustand/react'
 
-type ModalType = 'createBoard' | 'editTask' | null
+type ModalType = 'createBoard' | 'editTask' | 'createTask' | null
 
 type ModalStore = {
   openModal: (type: ModalType) => void

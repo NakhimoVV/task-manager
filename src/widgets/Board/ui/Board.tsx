@@ -11,6 +11,7 @@ import {
   type DropResult,
 } from '@hello-pangea/dnd'
 import { useBoardStore } from '@/entities/board/model/store.ts'
+import { useModalStore } from '@/shared/store/ModalStore.ts'
 
 type ColumnType = { key: Status; title: string }
 
@@ -26,6 +27,7 @@ const Board = () => {
   const moveTask = useTaskStore((state) => state.moveTask)
   const selectedBoardId = useBoardStore((state) => state.selectedBoardId)
   const setTasksForBoard = useBoardStore((state) => state.setTasksForBoard)
+  const { openModal } = useModalStore()
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result
@@ -100,7 +102,11 @@ const Board = () => {
                   </Droppable>
                   {key === 'backlog' && (
                     <footer className="board__column-actions">
-                      <Button label="Add new task card" mode="add-task" />
+                      <Button
+                        label="Add new task card"
+                        mode="add-task"
+                        onClick={() => openModal('createTask')}
+                      />
                     </footer>
                   )}
                 </div>
