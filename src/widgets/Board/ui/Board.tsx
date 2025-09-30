@@ -1,5 +1,4 @@
 import './Board.scss'
-import type { Status } from '@/entities/task/model/types.ts'
 import clsx from 'clsx'
 import TaskCard from '@/entities/task/ui/TaskCard'
 import Button from '@/shared/ui/Button'
@@ -12,15 +11,8 @@ import {
 } from '@hello-pangea/dnd'
 import { useBoardStore } from '@/entities/board/model/store.ts'
 import { useModalStore } from '@/shared/store/ModalStore.ts'
-
-type ColumnType = { key: Status; title: string }
-
-const columns: ColumnType[] = [
-  { key: 'backlog', title: 'Backlog' },
-  { key: 'in-progress', title: 'In Progress' },
-  { key: 'in-review', title: 'In Review' },
-  { key: 'completed', title: 'Completed' },
-]
+import { statusList as columns } from '@/shared/constants/statusList.ts'
+import Status from '@/shared/ui/Status'
 
 const Board = () => {
   const tasks = useTaskStore((state) => state.tasks)
@@ -54,19 +46,17 @@ const Board = () => {
       <div className="board__inner">
         <DragDropContext onDragEnd={onDragEnd}>
           <section className="board__body">
-            {columns.map(({ key, title }) => {
+            {columns.map(({ value: key, label: title }) => {
               const filteredTasks = tasks.filter((task) => task.status === key)
 
               return (
-                <div
-                  className={clsx('board__column', {
-                    [`board__column--${key}`]: key,
-                  })}
-                  key={key}
-                >
+                <div className={clsx('board__column')} key={key}>
                   <header className="board__column-header">
-                    <span className="board__column-status"></span>
-                    <span>{`${title} (${filteredTasks.length})`}</span>
+                    <Status
+                      mode={key}
+                      title={title}
+                      count={filteredTasks.length}
+                    />
                   </header>
                   <Droppable droppableId={key}>
                     {(provided) => (

@@ -30,7 +30,7 @@
     }
 
     &:has(input:focus-visible) {
-      @include focus-visible;
+      border-color: var(--theme-text);
     }
   }
 

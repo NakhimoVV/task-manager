@@ -34,6 +34,7 @@ const Field = (props: FieldProps) => {
         name={name}
         type={type}
         placeholder={placeholder}
+        autoComplete="off"
         {...rest}
       />
       {error && <span className="field__error">{error}</span>}

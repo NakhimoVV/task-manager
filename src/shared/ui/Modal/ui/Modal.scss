@@ -4,6 +4,7 @@
   background-color: var(--theme-bg-primary);
   border: none;
   border-radius: var(--border-radius-m);
+  overflow: visible;
 
   &[hidden] {
     display: none;
