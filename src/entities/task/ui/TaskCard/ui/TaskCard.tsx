@@ -27,7 +27,7 @@ const TaskCard = (props: TaskCardProps) => {
       <div className="task-card__tag-list">
         {task.tags.map((tag) => {
           const color = tagColors[tag]
-
+          // TODO: замена на TagItem
           return (
             <span
               className="task-card__tag-item"

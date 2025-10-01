@@ -8,8 +8,6 @@ import FieldSelect from '@/shared/ui/FieldSelect'
 import tagList from '@/entities/board/model/tagList.ts'
 import { statusList as optionsForStatus } from '@/shared/constants/statusList.ts'
 
-let renderCount = 0
-
 type FormData = Task
 
 const optionsForTags = tagList.map((value) => ({ label: value, value }))
@@ -30,9 +28,6 @@ const TaskEditForm = () => {
   const onSubmit = (data: FormData) => {
     console.log(data)
   }
-
-  renderCount++
-  console.log('RENDERS: ', renderCount)
 
   return (
     <form className="task-edit-form" onSubmit={handleSubmit(onSubmit)}>

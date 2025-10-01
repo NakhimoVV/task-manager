@@ -39,12 +39,10 @@
       }
     }
 
-//    @include mobile-above {
-//      @include visually-hidden;
-//    }
+    @include mobile-above {
+      @include visually-hidden;
+    }
   }
-
-
 
   &__control {
     display: flex;
@@ -102,8 +100,35 @@
   }
 
   &--multiple {
+    --colorText: var(--color-blue);
+    --colorBackground: var(--color-blue-light);
+
     .field-select__option {
+      text-transform: capitalize;
+      color: var(--colorText);
+      background-color: var(--colorBackground);
       border-radius: var(--border-radius-xs);
+      outline: 4px solid transparent;
+      outline-offset: -4px;
+
+      &.is-selected,
+      &.is-focus {
+        outline-color: var(--color-accent);
+      }
+    }
+
+    .field-select__control,
+    .field-select__original-control {
+      text-transform: capitalize; // Где-то Повторение
+    }
+
+    .field-select__control {
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .field-select__dropdown {
+      max-height: calc(40px * 4); // Магические числа !
     }
   }
 }

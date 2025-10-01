@@ -1,8 +1,12 @@
 import './FieldSelect.scss'
 import clsx from 'clsx'
-import { useState } from 'react'
+import { type CSSProperties, useState } from 'react'
 import type { Tag } from '@/entities/task/model/types.ts'
 import Status from '@/shared/ui/Status'
+import TagItem from '@/shared/ui/TagItem'
+import tagColors from '@/entities/board/model/tagColors.ts'
+
+export type Option = { label: string; value: string }
 
 type FieldSelectProps = {
   className?: string
@@ -10,11 +14,11 @@ type FieldSelectProps = {
   name: string
   multiple?: boolean
   disabled?: boolean
-  options: Array<{ label: string; value: string }>
+  options: Array<Option>
   value: string | Tag[]
   onChange: (value: string | Tag[]) => void
 }
-
+// TODO: проверка на хотябы один селект, и оптимизация стилей тегов
 const FieldSelect = (props: FieldSelectProps) => {
   const {
     className,
@@ -35,7 +39,12 @@ const FieldSelect = (props: FieldSelectProps) => {
     dropdown: `${name}-dropdown`,
   }
 
-  const selectedOption = options.find((option) => option.value === value)
+  const isArrayValue = Array.isArray(value)
+
+  const selectedOption: Option | Option[] =
+    multiple && isArrayValue
+      ? options.filter((option) => value.includes(option.value as Tag))
+      : options.find((option) => option.value === value) || options[0]
 
   return (
     <div
@@ -59,10 +68,19 @@ const FieldSelect = (props: FieldSelectProps) => {
         tabIndex={-1}
         multiple={multiple}
         size={multiple ? 4 : 1}
-        value={value ?? ''}
+        value={multiple ? (value as Tag[]) : (value as string)}
         disabled={disabled}
         onChange={(event) => {
-          onChange(event.target.value)
+          if (multiple) {
+            const selectedOptions = event.target.selectedOptions
+            const selectedValues = Array.from(selectedOptions).map(
+              (option) => option.value,
+            ) as Tag[]
+
+            onChange(selectedValues)
+          } else {
+            onChange(event.target.value)
+          }
         }}
         {...rest}
       >
@@ -84,12 +102,14 @@ const FieldSelect = (props: FieldSelectProps) => {
           aria-labelledby={IDs.label}
           onClick={() => setIsOpen((prevState) => !prevState)}
         >
-          {Array.isArray(value) ? (
-            value.map((item) => <span key={item}>{item}</span>)
+          {multiple ? (
+            (selectedOption as Option[]).map((item) => (
+              <TagItem tag={item.label as Tag} key={item.value} />
+            ))
           ) : (
             <Status
-              mode={selectedOption?.value}
-              title={selectedOption?.label || ''}
+              mode={(selectedOption as Option).value}
+              title={(selectedOption as Option).label || ''}
             />
           )}
         </button>
@@ -104,8 +124,11 @@ const FieldSelect = (props: FieldSelectProps) => {
             aria-labelledby={IDs.label}
           >
             {options.map((option) => {
-              const isSelected = value === option.value
+              const isSelected = multiple
+                ? (value as Tag[]).includes(option.value as Tag)
+                : value === option.value
 
+              const color = tagColors[option.value as Tag]
               return (
                 <div
                   className={clsx('field-select__option', {
@@ -114,13 +137,39 @@ const FieldSelect = (props: FieldSelectProps) => {
                   id={`${name}-option-${option.value}`}
                   role="option"
                   aria-selected={isSelected}
+                  style={
+                    multiple
+                      ? ({
+                          '--colorText': color.text,
+                          '--colorBackground': color.background,
+                        } as CSSProperties)
+                      : {}
+                  }
                   onClick={() => {
-                    onChange(option.value)
-                    setIsOpen(false)
+                    if (multiple) {
+                      const currentValues = value as Tag[]
+                      const optionValue = option.value as Tag
+
+                      const isCurrentlySelected =
+                        currentValues.includes(optionValue)
+
+                      const newValues = isCurrentlySelected
+                        ? currentValues.filter((v) => v !== optionValue) // Убираем если уже выбран
+                        : [...currentValues, optionValue] // Добавляем если не выбран
+
+                      onChange(newValues)
+                    } else {
+                      onChange(option.value)
+                      setIsOpen(false)
+                    }
                   }}
                   key={option.value}
                 >
-                  <Status title={option.label} mode={option.value} />
+                  {multiple ? (
+                    <span>{option.label}</span>
+                  ) : (
+                    <Status title={option.label} mode={option.value} />
+                  )}
                 </div>
               )
             })}
