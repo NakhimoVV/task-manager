@@ -1,7 +1,7 @@
 import './TaskEditForm.scss'
 import Button from '@/shared/ui/Button'
 import { useForm } from 'react-hook-form'
-import type { Status, Tag, Task } from '@/entities/task/model/types.ts'
+import type { Status, Task } from '@/entities/task/model/types.ts'
 import { useModalStore } from '@/shared/store/ModalStore.ts'
 import Field from '@/shared/ui/Field'
 import FieldSelect from '@/shared/ui/FieldSelect'
@@ -58,7 +58,7 @@ const TaskEditForm = () => {
         options={optionsForTags}
         value={tagsValue}
         onChange={(value) => {
-          setValue('tags', value as Tag[])
+          setValue('tags', value)
         }}
       />
       <div className="task-edit-form__actions">

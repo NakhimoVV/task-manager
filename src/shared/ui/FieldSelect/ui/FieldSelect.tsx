@@ -1,37 +1,57 @@
 import './FieldSelect.scss'
 import clsx from 'clsx'
-import { type CSSProperties, useState } from 'react'
+import { type CSSProperties, useRef, useState } from 'react'
 import type { Tag } from '@/entities/task/model/types.ts'
 import Status from '@/shared/ui/Status'
 import TagItem from '@/shared/ui/TagItem'
 import tagColors from '@/entities/board/model/tagColors.ts'
+import { useClickOutside } from '@/shared/hooks/useClickOutside.ts'
 
 export type Option = { label: string; value: string }
 
-type FieldSelectProps = {
+type FieldSelectBaseProps = {
   className?: string
   label?: string
   name: string
-  multiple?: boolean
   disabled?: boolean
   options: Array<Option>
-  value: string | Tag[]
-  onChange: (value: string | Tag[]) => void
 }
-// TODO: проверка на хотябы один селект, и оптимизация стилей тегов
+
+type FieldSelectSingleProps = FieldSelectBaseProps & {
+  multiple?: false
+  value: string
+  onChange: (value: string) => void
+}
+
+type FieldSelectMultipleProps = FieldSelectBaseProps & {
+  multiple: true
+  value: Tag[]
+  onChange: (value: Tag[]) => void
+}
+
+type FieldSelectProps = FieldSelectSingleProps | FieldSelectMultipleProps
+
+// TODO: проверка на хотябы один селект, и оптимизация стилей тегов,
+//  react-hook-form + controlled input, хотя можно оставить одно,
+//  создаётся новый массив options.map(...) в selectedOption - закешировать через useMemo,
+//  вынос в <FieldSelectOption /><FieldSelectDropdown />
+
 const FieldSelect = (props: FieldSelectProps) => {
   const {
     className,
     label,
     name,
-    multiple = false,
+    multiple,
     disabled = false,
     options,
     value,
     onChange,
     ...rest
   } = props
+  const ref = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
+
+  useClickOutside(ref, () => setIsOpen(false))
 
   const IDs = {
     originalControl: name,
@@ -39,18 +59,16 @@ const FieldSelect = (props: FieldSelectProps) => {
     dropdown: `${name}-dropdown`,
   }
 
-  const isArrayValue = Array.isArray(value)
-
-  const selectedOption: Option | Option[] =
-    multiple && isArrayValue
-      ? options.filter((option) => value.includes(option.value as Tag))
-      : options.find((option) => option.value === value) || options[0]
+  const selectedOption = multiple
+    ? options.filter((option) => value.includes(option.value as Tag))
+    : options.find((option) => option.value === value) || ''
 
   return (
     <div
       className={clsx(className, 'field-select', {
         'field-select--multiple': multiple,
       })}
+      ref={ref}
     >
       {label && (
         <label
@@ -68,7 +86,7 @@ const FieldSelect = (props: FieldSelectProps) => {
         tabIndex={-1}
         multiple={multiple}
         size={multiple ? 4 : 1}
-        value={multiple ? (value as Tag[]) : (value as string)}
+        value={value}
         disabled={disabled}
         onChange={(event) => {
           if (multiple) {

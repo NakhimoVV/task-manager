@@ -3,12 +3,15 @@
 
   @include flex-center;
 
-  max-width: 456px;
+  min-width: 456px;
   min-height: 120px;
   background-color: var(--color-grey-light);
   border-radius: var(--border-radius-s);
-  transition-duration: var(--transition-duration);
   overflow: hidden;
+
+  &:hover &__actions-backdrop {
+    @include show;
+  }
 
   &__actions {
     @include flex-center(true);
@@ -23,6 +26,21 @@
       justify-content: center;
       align-content: center;
       background-color: rgb(var(--color-black-rgb) / 80%);
+      transition-duration: var(--transition-duration);
+
+      @include hide;
+    }
+
+    &-button {
+      font-weight: 700;
+
+      &--random {
+        background-color: var(--color-accent);
+      }
+
+      &--remove {
+        background-color: var(--color-bad-accent);
+      }
     }
   }
 
