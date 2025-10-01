@@ -7,6 +7,7 @@ import Field from '@/shared/ui/Field'
 import FieldSelect from '@/shared/ui/FieldSelect'
 import tagList from '@/entities/board/model/tagList.ts'
 import { statusList as optionsForStatus } from '@/shared/constants/statusList.ts'
+import FieldImage from '@/shared/ui/FieldImage'
 
 type FormData = Task
 
@@ -31,7 +32,7 @@ const TaskEditForm = () => {
 
   return (
     <form className="task-edit-form" onSubmit={handleSubmit(onSubmit)}>
-      {/*FieldImage*/}
+      <FieldImage />
       <Field
         className="task-edit-form__title"
         label="Task name"
