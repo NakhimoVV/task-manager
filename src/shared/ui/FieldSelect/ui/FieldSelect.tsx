@@ -5,8 +5,9 @@ import type { Tag } from '@/entities/task/model/types.ts'
 import Status from '@/shared/ui/Status'
 import TagItem from '@/shared/ui/TagItem'
 import { useClickOutside } from '@/shared/hooks/useClickOutside.ts'
-
-export type Option = { label: string; value: string }
+import type { Option } from '@/shared/ui/FieldSelect/model/types.ts'
+import { TagItemOption } from '@/shared/ui/FieldSelect/ui/withFieldSelectOption.tsx'
+import FieldSelectOption from '@/shared/ui/FieldSelect/ui/FieldSelectOption.tsx'
 
 type FieldSelectProps = {
   className?: string
@@ -17,8 +18,7 @@ type FieldSelectProps = {
   multiple?: boolean
 }
 
-// TODO: проверка на хотябы один селект,
-//  вынос в <FieldSelectOption /> и оптимизация стилей тегов (HOC подход??)
+// TODO: добавить навигацию с клавиатуры
 
 const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
   (props, ref) => {
@@ -100,7 +100,14 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
       }
 
       if (multiple) {
-        const newValues = selectedValues.includes(optionValue)
+        const isAlreadySelected = selectedValues.includes(optionValue)
+
+        // Если выбран последний - не убираем selected
+        if (isAlreadySelected && selectedValues.length === 1) {
+          return
+        }
+
+        const newValues = isAlreadySelected
           ? selectedValues.filter((value) => value !== optionValue)
           : [...selectedValues, optionValue]
 
@@ -170,7 +177,7 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
                 title={selectedOptions[0].label}
               />
             ) : (
-              (selectedOptions as Option[]).map((item) => (
+              selectedOptions.map((item) => (
                 <TagItem tag={item.label as Tag} key={item.value} />
               ))
             )}
@@ -187,24 +194,19 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
             >
               {options.map((option) => {
                 const isSelected = selectedValues.includes(option.value)
+                const commonAttrs = {
+                  option,
+                  isSelected,
+                  name,
+                  onClick: handleOptionClick,
+                }
 
-                return (
-                  <div
-                    className={clsx('field-select__option', {
-                      'is-selected': isSelected,
-                    })}
-                    id={`${name}-option-${option.value}`}
-                    role="option"
-                    aria-selected={isSelected}
-                    onClick={() => handleOptionClick(option.value)}
-                    key={option.value}
-                  >
-                    {multiple ? (
-                      <span>{option.label}</span>
-                    ) : (
-                      <Status title={option.label} mode={option.value} />
-                    )}
-                  </div>
+                return multiple ? (
+                  <TagItemOption key={option.value} {...commonAttrs} />
+                ) : (
+                  <FieldSelectOption key={option.value} {...commonAttrs}>
+                    <Status title={option.label} mode={option.value} />
+                  </FieldSelectOption>
                 )
               })}
             </div>

@@ -17,7 +17,7 @@ const TaskEditForm = () => {
   const { register, handleSubmit } = useForm<FormData>({
     defaultValues: {
       status: 'backlog',
-      tags: ['concept'],
+      tags: ['concept', 'technical'],
     },
   })
   const modalType = useModalStore((state) => state.modalType)
