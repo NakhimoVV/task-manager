@@ -1,17 +1,9 @@
 import './FieldSelect.scss'
 import clsx from 'clsx'
-import {
-  type CSSProperties,
-  forwardRef,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
 import type { Tag } from '@/entities/task/model/types.ts'
 import Status from '@/shared/ui/Status'
 import TagItem from '@/shared/ui/TagItem'
-import tagColors from '@/entities/board/model/tagColors.ts'
 import { useClickOutside } from '@/shared/hooks/useClickOutside.ts'
 
 export type Option = { label: string; value: string }
@@ -25,9 +17,8 @@ type FieldSelectProps = {
   multiple?: boolean
 }
 
-// TODO: проверка на хотябы один селект, и оптимизация стилей тегов,
-//  react-hook-form + controlled input, хотя можно оставить одно,
-//  вынос в <FieldSelectOption /><FieldSelectDropdown />
+// TODO: проверка на хотябы один селект,
+//  вынос в <FieldSelectOption /> и оптимизация стилей тегов (HOC подход??)
 
 const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
   (props, ref) => {
@@ -55,6 +46,8 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
     const [isOpen, setIsOpen] = useState(false)
     const [selectedValues, setSelectedValues] = useState<string[]>([])
 
+    useClickOutside(componentRef, () => setIsOpen(false))
+
     useEffect(() => {
       const updateFromNativeSelect = () => {
         if (!selectRef.current) {
@@ -74,6 +67,7 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
       }
 
       const select = selectRef.current
+
       if (select) {
         select.addEventListener('change', updateFromNativeSelect)
         updateFromNativeSelect()
@@ -83,8 +77,6 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
         }
       }
     }, [multiple])
-
-    useClickOutside(componentRef, () => setIsOpen(false))
 
     const IDs = {
       originalControl: name,
@@ -109,10 +101,10 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
 
       if (multiple) {
         const newValues = selectedValues.includes(optionValue)
-          ? selectedValues.filter((v) => v !== optionValue)
+          ? selectedValues.filter((value) => value !== optionValue)
           : [...selectedValues, optionValue]
 
-        // Обновляем нативный select
+        // Обновляем нативный select для синхронизации
         Array.from(selectRef.current.options).forEach((option) => {
           option.selected = newValues.includes(option.value)
         })
@@ -125,19 +117,10 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
       }
     }
 
-    const getSelectedOptions = () => {
-      if (multiple) {
-        return options.filter((opt) => selectedValues.includes(opt.value))
-      } else {
-        // Для single режима берем первое значение из массива
-        const selectedValue = selectedValues[0]
-        return selectedValue
-          ? [options.find((opt) => opt.value === selectedValue) || options[0]]
-          : [options[0]] // fallback
-      }
-    }
+    const selectedOptions = multiple
+      ? options.filter((opt) => selectedValues.includes(opt.value))
+      : [options.find((opt) => opt.value === selectedValues[0]) || options[0]]
 
-    const selectedOption = getSelectedOptions()
     const isSingleMode = !multiple
 
     return (
@@ -183,11 +166,11 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
           >
             {isSingleMode ? (
               <Status
-                mode={selectedOption[0].value}
-                title={selectedOption[0].label}
+                mode={selectedOptions[0].value}
+                title={selectedOptions[0].label}
               />
             ) : (
-              (selectedOption as Option[]).map((item) => (
+              (selectedOptions as Option[]).map((item) => (
                 <TagItem tag={item.label as Tag} key={item.value} />
               ))
             )}
@@ -205,7 +188,6 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
               {options.map((option) => {
                 const isSelected = selectedValues.includes(option.value)
 
-                const color = tagColors[option.value as Tag]
                 return (
                   <div
                     className={clsx('field-select__option', {
@@ -214,14 +196,6 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
                     id={`${name}-option-${option.value}`}
                     role="option"
                     aria-selected={isSelected}
-                    style={
-                      multiple
-                        ? ({
-                            '--colorText': color.text,
-                            '--colorBackground': color.background,
-                          } as CSSProperties)
-                        : {}
-                    }
                     onClick={() => handleOptionClick(option.value)}
                     key={option.value}
                   >
