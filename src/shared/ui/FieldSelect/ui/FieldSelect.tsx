@@ -8,6 +8,7 @@ import { useClickOutside } from '@/shared/hooks/useClickOutside.ts'
 import type { Option } from '@/shared/ui/FieldSelect/model/types.ts'
 import { TagItemOption } from '@/shared/ui/FieldSelect/ui/withFieldSelectOption.tsx'
 import FieldSelectOption from '@/shared/ui/FieldSelect/ui/FieldSelectOption.tsx'
+import { useListboxNavigation } from '@/shared/hooks/useListboxNavigation.ts'
 
 type FieldSelectProps = {
   className?: string
@@ -124,6 +125,13 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
       }
     }
 
+    const { activeIndex, handleKeyDown } = useListboxNavigation(
+      options.map((option) => option.value),
+      handleOptionClick,
+      multiple,
+      setIsOpen,
+    )
+
     const selectedOptions = multiple
       ? options.filter((opt) => selectedValues.includes(opt.value))
       : [options.find((opt) => opt.value === selectedValues[0]) || options[0]]
@@ -191,14 +199,19 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
               id={IDs.dropdown}
               role="listbox"
               aria-labelledby={IDs.label}
+              tabIndex={0}
+              aria-activedescendant={options[activeIndex]?.value}
+              onKeyDown={handleKeyDown}
             >
-              {options.map((option) => {
+              {options.map((option, index) => {
+                const isActive = index === activeIndex
                 const isSelected = selectedValues.includes(option.value)
                 const commonAttrs = {
                   option,
                   isSelected,
                   name,
                   onClick: handleOptionClick,
+                  isActive,
                 }
 
                 return multiple ? (

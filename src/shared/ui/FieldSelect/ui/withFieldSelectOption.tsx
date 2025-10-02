@@ -7,18 +7,20 @@ type WithOptionProps = OptionProps
 
 const withFieldSelectOption =
   (Component: ComponentType<any>) => (props: WithOptionProps) => {
-    const { option, isSelected, name, onClick, ...rest } = props
+    const { option, isSelected, onClick, isActive, ...rest } = props
 
     return (
       <Component
         className={clsx('field-select__option', {
           'is-selected': isSelected,
+          'is-active': isActive,
         })}
-        id={`${name}-option-${option.value}`}
+        id={option.value}
         role="option"
         aria-selected={isSelected}
         onClick={() => onClick(option.value)}
         tag={option.value}
+        // aria-current={isActive ? 'true' : undefined}
         {...rest}
       />
     )
