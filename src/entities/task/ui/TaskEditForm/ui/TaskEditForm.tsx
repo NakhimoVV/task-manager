@@ -1,7 +1,7 @@
 import './TaskEditForm.scss'
 import Button from '@/shared/ui/Button'
 import { useForm } from 'react-hook-form'
-import type { Status, Task } from '@/entities/task/model/types.ts'
+import type { Task } from '@/entities/task/model/types.ts'
 import { useModalStore } from '@/shared/store/ModalStore.ts'
 import Field from '@/shared/ui/Field'
 import FieldSelect from '@/shared/ui/FieldSelect'
@@ -14,7 +14,7 @@ type FormData = Task
 const optionsForTags = tagList.map((value) => ({ label: value, value }))
 
 const TaskEditForm = () => {
-  const { register, handleSubmit, setValue, watch } = useForm<FormData>({
+  const { register, handleSubmit } = useForm<FormData>({
     defaultValues: {
       status: 'backlog',
       tags: ['concept'],
@@ -22,9 +22,6 @@ const TaskEditForm = () => {
   })
   const modalType = useModalStore((state) => state.modalType)
   const closeModal = useModalStore((state) => state.closeModal)
-
-  const statusValue = watch('status')
-  const tagsValue = watch('tags')
 
   const onSubmit = (data: FormData) => {
     console.log(data)
@@ -42,24 +39,16 @@ const TaskEditForm = () => {
       <FieldSelect
         className="task-edit-form__status"
         label="Status"
-        name="status"
         options={optionsForStatus}
-        value={statusValue}
-        onChange={(value) => {
-          setValue('status', value as Status)
-        }}
+        {...register('status')}
         // disabled={modalType === 'createTask'}
       />
       <FieldSelect
         className="task-edit-form__tags"
         label="Tags"
-        name="tags"
         multiple
         options={optionsForTags}
-        value={tagsValue}
-        onChange={(value) => {
-          setValue('tags', value)
-        }}
+        {...register('tags')}
       />
       <div className="task-edit-form__actions">
         <Button
