@@ -19,8 +19,6 @@ type FieldSelectProps = {
   multiple?: boolean
 }
 
-// TODO: добавить навигацию с клавиатуры
-
 const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
   (props, ref) => {
     const {
@@ -125,12 +123,13 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
       }
     }
 
-    const { activeIndex, handleKeyDown } = useListboxNavigation(
-      options.map((option) => option.value),
-      handleOptionClick,
-      multiple,
-      setIsOpen,
-    )
+    const { activeIndex, handleKeyDown, controlRef, dropdownRef } =
+      useListboxNavigation(
+        options.map((option) => option.value),
+        handleOptionClick,
+        isOpen,
+        setIsOpen,
+      )
 
     const selectedOptions = multiple
       ? options.filter((opt) => selectedValues.includes(opt.value))
@@ -168,16 +167,19 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
           {optionList}
         </select>
         <div className="field-select__body">
-          <button
+          <div
             className={clsx('field-select__control', {
               'is-open': isOpen,
             })}
-            type="button"
+            tabIndex={0}
+            ref={controlRef}
             aria-expanded={isOpen}
             aria-haspopup="listbox"
+            aria-activedescendant={options[activeIndex]?.value}
             aria-controls={IDs.dropdown}
             aria-labelledby={IDs.label}
             onClick={() => setIsOpen((prevState) => !prevState)}
+            onKeyDown={handleKeyDown}
           >
             {isSingleMode ? (
               <Status
@@ -189,19 +191,17 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
                 <TagItem tag={item.label as Tag} key={item.value} />
               ))
             )}
-          </button>
+          </div>
 
           {isOpen && (
             <div
               className={clsx('field-select__dropdown', {
                 'is-open': isOpen,
               })}
+              ref={dropdownRef}
               id={IDs.dropdown}
               role="listbox"
               aria-labelledby={IDs.label}
-              tabIndex={0}
-              aria-activedescendant={options[activeIndex]?.value}
-              onKeyDown={handleKeyDown}
             >
               {options.map((option, index) => {
                 const isActive = index === activeIndex

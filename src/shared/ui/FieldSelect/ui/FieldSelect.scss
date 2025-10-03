@@ -53,6 +53,10 @@
       @include visually-hidden;
     }
 
+    @include hover {
+      border-color: var(--color-accent);
+    }
+
     &:focus-visible {
       border-color: var(--color-accent);
     }
