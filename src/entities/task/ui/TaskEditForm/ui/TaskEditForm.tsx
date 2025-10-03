@@ -16,6 +16,7 @@ const optionsForTags = tagList.map((value) => ({ label: value, value }))
 const TaskEditForm = () => {
   const { register, handleSubmit } = useForm<FormData>({
     defaultValues: {
+      background: null,
       status: 'backlog',
       tags: ['concept', 'technical'],
     },
@@ -29,7 +30,7 @@ const TaskEditForm = () => {
 
   return (
     <form className="task-edit-form" onSubmit={handleSubmit(onSubmit)}>
-      <FieldImage />
+      <FieldImage {...register('background')} />
       <Field
         className="task-edit-form__title"
         label="Task name"
@@ -40,8 +41,7 @@ const TaskEditForm = () => {
         className="task-edit-form__status"
         label="Status"
         options={optionsForStatus}
-        {...register('status')}
-        // disabled={modalType === 'createTask'}
+        {...register('status', { disabled: modalType === 'createTask' })}
       />
       <FieldSelect
         className="task-edit-form__tags"

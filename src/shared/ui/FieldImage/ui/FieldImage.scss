@@ -1,13 +1,14 @@
 .field-image {
   position: relative;
-
-  @include flex-center;
-
   min-width: 456px;
   min-height: 120px;
   background-color: var(--color-grey-light);
+  background-size: cover;
   border-radius: var(--border-radius-s);
+  background-repeat: no-repeat;
   overflow: hidden;
+
+  @include flex-center;
 
   &:hover &__actions-backdrop {
     @include show;
@@ -25,7 +26,7 @@
       flex-direction: column;
       justify-content: center;
       align-content: center;
-      background-color: rgb(var(--color-black-rgb) / 80%);
+      background-color: rgb(var(--color-black-rgb) / 90%);
       transition-duration: var(--transition-duration);
 
       @include hide;
@@ -48,5 +49,9 @@
     font-size: 20px;
     font-weight: 700;
     color: var(--color-silver);
+  }
+
+  &__input {
+//    display: none;
   }
 }

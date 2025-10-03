@@ -14,22 +14,13 @@ type FieldSelectProps = {
   className?: string
   label?: string
   name: string
-  disabled?: boolean
   options: Array<Option>
   multiple?: boolean
 }
 
 const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
   (props, ref) => {
-    const {
-      className,
-      label,
-      name,
-      multiple = false,
-      disabled = false,
-      options,
-      ...rest
-    } = props
+    const { className, label, name, multiple = false, options, ...rest } = props
 
     const selectRef = useRef<HTMLSelectElement>(null)
     const componentRef = useRef<HTMLDivElement>(null)
@@ -161,7 +152,6 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
           tabIndex={-1}
           multiple={multiple}
           size={multiple ? 4 : 1}
-          disabled={disabled}
           {...rest}
         >
           {optionList}
@@ -171,7 +161,7 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
             className={clsx('field-select__control', {
               'is-open': isOpen,
             })}
-            tabIndex={0}
+            tabIndex={selectRef.current?.disabled ? -1 : 0}
             ref={controlRef}
             aria-expanded={isOpen}
             aria-haspopup="listbox"
