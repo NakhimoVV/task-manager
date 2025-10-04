@@ -78,7 +78,10 @@ const Board = () => {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                 >
-                                  <TaskCard task={task} />
+                                  <TaskCard
+                                    task={task}
+                                    onClick={() => openModal('editTask')}
+                                  />
                                 </div>
                               )}
                             </Draggable>

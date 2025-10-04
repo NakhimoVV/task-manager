@@ -1,5 +1,5 @@
 function generateId() {
-  return crypto?.randomUUID() ?? Date.now().toString()
+  return Date.now()
 }
 
 export default generateId

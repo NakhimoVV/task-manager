@@ -1,6 +1,6 @@
 import './TaskEditForm.scss'
 import Button from '@/shared/ui/Button'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import type { Task } from '@/entities/task/model/types.ts'
 import { useModalStore } from '@/shared/store/ModalStore.ts'
 import Field from '@/shared/ui/Field'
@@ -8,29 +8,48 @@ import FieldSelect from '@/shared/ui/FieldSelect'
 import tagList from '@/entities/board/model/tagList.ts'
 import { statusList as optionsForStatus } from '@/shared/constants/statusList.ts'
 import FieldImage from '@/shared/ui/FieldImage'
+import generateId from '@/shared/lib/generateId.ts'
+import { useTaskStore } from '@/entities/task/model/store.ts'
 
 type FormData = Task
 
 const optionsForTags = tagList.map((value) => ({ label: value, value }))
 
-const TaskEditForm = () => {
-  const { register, handleSubmit } = useForm<FormData>({
-    defaultValues: {
+type TaskEditFormProps = {
+  taskId?: number
+}
+
+const TaskEditForm = (props: TaskEditFormProps) => {
+  const { taskId } = props
+  const initialDataById = useTaskStore((state) => state.getTaskById(taskId))
+  const { register, control, handleSubmit, reset } = useForm<FormData>({
+    defaultValues: initialDataById ?? {
       background: null,
       status: 'backlog',
-      tags: ['concept', 'technical'],
+      tags: ['concept'],
     },
   })
   const modalType = useModalStore((state) => state.modalType)
   const closeModal = useModalStore((state) => state.closeModal)
 
   const onSubmit = (data: FormData) => {
-    console.log(data)
+    const resultTitle = data.title.trim() === '' ? 'Default task' : data.title
+    console.log('Create task:', {
+      ...data,
+      title: resultTitle,
+      id: generateId(),
+    })
+    reset()
+    closeModal()
   }
 
   return (
     <form className="task-edit-form" onSubmit={handleSubmit(onSubmit)}>
-      <FieldImage {...register('background')} />
+      <Controller
+        render={({ field }) => <FieldImage {...field} />}
+        name="background"
+        control={control}
+      />
       <Field
         className="task-edit-form__title"
         label="Task name"

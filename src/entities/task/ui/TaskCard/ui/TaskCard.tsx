@@ -4,13 +4,14 @@ import tagColors from '@/entities/board/model/tagColors.ts'
 import { type CSSProperties } from 'react'
 type TaskCardProps = {
   task: Task
+  onClick?: () => void
 }
 
 const TaskCard = (props: TaskCardProps) => {
-  const { task } = props
+  const { task, onClick } = props
 
   return (
-    <article className="task-card">
+    <article className="task-card" onClick={onClick}>
       {task.background && (
         <div className="task-card__image-wrapper">
           <img

@@ -29,7 +29,7 @@ const ModalProvider = () => {
   return (
     <Modal title={title} isOpen={!!modalType} onClose={closeModal}>
       {modalType === 'createBoard' && <BoardCreateForm />}
-      {/*{modalType === 'editTask' && <TaskEditForm />}*/}
+      {modalType === 'editTask' && <TaskEditForm />}
       {modalType === 'createTask' && <TaskEditForm />}
     </Modal>
   )

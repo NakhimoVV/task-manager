@@ -10,6 +10,7 @@ type TaskStore = {
   setTasks: (tasks: Task[]) => void
 
   changeStatus: (taskId: number, newStatus: Status) => void
+  getTaskById: (taskId: number | undefined) => Task | undefined
   moveTask: (
     sourceId: string,
     sourceIndex: number,
@@ -34,6 +35,13 @@ export const useTaskStore = create<TaskStore>()(
         )
 
         set({ tasks: updatedTasks })
+      },
+
+      getTaskById: (id) => {
+        if (!id) {
+          return
+        }
+        return get().tasks.find((task) => task.id === id)
       },
 
       moveTask: (
