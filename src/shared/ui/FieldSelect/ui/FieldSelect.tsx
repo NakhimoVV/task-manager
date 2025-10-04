@@ -23,7 +23,6 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
     const { className, label, name, multiple = false, options, ...rest } = props
 
     const selectRef = useRef<HTMLSelectElement>(null)
-    const componentRef = useRef<HTMLDivElement>(null)
     const setRef = (node: HTMLSelectElement) => {
       selectRef.current = node
       if (typeof ref === 'function') {
@@ -35,8 +34,6 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
 
     const [isOpen, setIsOpen] = useState(false)
     const [selectedValues, setSelectedValues] = useState<string[]>([])
-
-    useClickOutside(componentRef, () => setIsOpen(false))
 
     useEffect(() => {
       const updateFromNativeSelect = () => {
@@ -114,17 +111,24 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
       }
     }
 
+    const selectedOptions = multiple
+      ? options.filter((opt) => selectedValues.includes(opt.value))
+      : [options.find((opt) => opt.value === selectedValues[0]) || options[0]]
+
+    const firstSelectedIndex = selectedOptions[0]
+      ? options.findIndex(({ value }) => value === selectedOptions[0].value)
+      : 0
+
     const { activeIndex, handleKeyDown, controlRef, dropdownRef } =
       useListboxNavigation(
         options.map((option) => option.value),
         handleOptionClick,
         isOpen,
         setIsOpen,
+        firstSelectedIndex,
       )
 
-    const selectedOptions = multiple
-      ? options.filter((opt) => selectedValues.includes(opt.value))
-      : [options.find((opt) => opt.value === selectedValues[0]) || options[0]]
+    useClickOutside(controlRef, () => setIsOpen(false))
 
     const isSingleMode = !multiple
 
@@ -133,7 +137,6 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
         className={clsx(className, 'field-select', {
           'field-select--multiple': multiple,
         })}
-        ref={componentRef}
       >
         {label && (
           <label

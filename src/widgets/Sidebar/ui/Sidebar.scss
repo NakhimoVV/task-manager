@@ -23,17 +23,17 @@
   }
 
   &__header {
+    flex-shrink: 0;
     padding-inline: 4px;
     padding-top: 6px;
   }
 
-  &__button {
-
-  }
-
   &__body {
     flex-grow: 1;
+    overflow-y: auto;
   }
 
-  &__footer {}
+  &__footer {
+    flex-shrink: 0;
+  }
 }

@@ -9,27 +9,25 @@ import tagList from '@/entities/board/model/tagList.ts'
 import { statusList as optionsForStatus } from '@/shared/constants/statusList.ts'
 import FieldImage from '@/shared/ui/FieldImage'
 import generateId from '@/shared/lib/generateId.ts'
-import { useTaskStore } from '@/entities/task/model/store.ts'
 
 type FormData = Task
 
 const optionsForTags = tagList.map((value) => ({ label: value, value }))
 
 type TaskEditFormProps = {
-  taskId?: number
+  initialData?: Task
 }
 
 const TaskEditForm = (props: TaskEditFormProps) => {
-  const { taskId } = props
-  const initialDataById = useTaskStore((state) => state.getTaskById(taskId))
+  const { initialData } = props
   const { register, control, handleSubmit, reset } = useForm<FormData>({
-    defaultValues: initialDataById ?? {
+    defaultValues: initialData ?? {
       background: null,
       status: 'backlog',
       tags: ['concept'],
     },
   })
-  const modalType = useModalStore((state) => state.modalType)
+  const modalType = useModalStore((state) => state.type)
   const closeModal = useModalStore((state) => state.closeModal)
 
   const onSubmit = (data: FormData) => {

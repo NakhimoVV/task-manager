@@ -19,7 +19,7 @@ const Board = () => {
   const moveTask = useTaskStore((state) => state.moveTask)
   const selectedBoardId = useBoardStore((state) => state.selectedBoardId)
   const setTasksForBoard = useBoardStore((state) => state.setTasksForBoard)
-  const { openModal } = useModalStore()
+  const openModal = useModalStore((state) => state.openModal)
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result
@@ -80,7 +80,9 @@ const Board = () => {
                                 >
                                   <TaskCard
                                     task={task}
-                                    onClick={() => openModal('editTask')}
+                                    onClick={() =>
+                                      openModal('editTask', { ...task })
+                                    }
                                   />
                                 </div>
                               )}

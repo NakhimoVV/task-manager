@@ -20,7 +20,6 @@ const withFieldSelectOption =
         aria-selected={isSelected}
         onClick={() => onClick(option.value)}
         tag={option.value}
-        // aria-current={isActive ? 'true' : undefined}
         {...rest}
       />
     )

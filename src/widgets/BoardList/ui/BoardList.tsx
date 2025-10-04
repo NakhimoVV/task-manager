@@ -16,7 +16,7 @@ const BoardList = () => {
   const setTasks = useTaskStore((state) => state.setTasks)
   const fetchTasksForBoard = useBoardStore((state) => state.fetchTasksForBoard)
   const tasksCache = useBoardStore((state) => state.tasksByBoard)
-  const { openModal } = useModalStore()
+  const openModal = useModalStore((state) => state.openModal)
 
   useEffect(() => {
     void fetchBoards()

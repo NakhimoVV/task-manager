@@ -3,15 +3,17 @@ import { create } from 'zustand/react'
 type ModalType = 'createBoard' | 'editTask' | 'createTask' | null
 
 type ModalStore = {
-  openModal: (type: ModalType) => void
+  type: ModalType
+  payload?: unknown
+  openModal: (type: ModalType, payload?: unknown) => void
   closeModal: () => void
-  modalType: ModalType
 }
 
 export const useModalStore = create<ModalStore>((set) => ({
-  modalType: null,
+  type: null,
+  payload: undefined,
 
-  openModal: (type) => set({ modalType: type }),
+  openModal: (type, payload) => set({ type, payload }),
 
-  closeModal: () => set({ modalType: null }),
+  closeModal: () => set({ type: null }),
 }))
