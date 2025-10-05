@@ -104,7 +104,7 @@ export const useBoardStore = create<BoardStore>()(
 
       removeBoard: (id) => {
         const filtered = get().boards.filter((b) => b.id !== id)
-        // TODO: реализовать например в RightClick по BoardItem
+
         set({ boards: filtered })
       },
     }),

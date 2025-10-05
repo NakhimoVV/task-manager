@@ -3,6 +3,7 @@ import { create } from 'zustand'
 
 import { createJSONStorage, persist } from 'zustand/middleware'
 import generateId from '@/shared/lib/generateId.ts'
+import { useBoardStore } from '@/entities/board/model/store.ts'
 
 type TaskStore = {
   tasks: Task[]
@@ -22,6 +23,13 @@ type TaskStore = {
     destinationIndex: number,
     draggableId: string,
   ) => void
+}
+
+const syncWithBoardStorage = (updatedTasks: Task[]) => {
+  const selectedBoardId = useBoardStore.getState().selectedBoardId
+  if (selectedBoardId !== undefined) {
+    useBoardStore.getState().setTasksForBoard(selectedBoardId, updatedTasks)
+  }
 }
 
 export const useTaskStore = create<TaskStore>()(
@@ -120,6 +128,8 @@ export const useTaskStore = create<TaskStore>()(
         const updated = [...get().tasks, newTask]
 
         set({ tasks: updated })
+
+        syncWithBoardStorage(updated)
       },
 
       updateTask: (updateTask) => {
@@ -128,12 +138,16 @@ export const useTaskStore = create<TaskStore>()(
         )
 
         set({ tasks: updated })
+
+        syncWithBoardStorage(updated)
       },
 
       removeTask: (taskId) => {
         const filtered = get().tasks.filter(({ id }) => id !== taskId)
 
         set({ tasks: filtered })
+
+        syncWithBoardStorage(filtered)
       },
     }),
     {

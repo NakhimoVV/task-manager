@@ -2,10 +2,14 @@ import './BoardList.scss'
 import BoardItem from '@/entities/board/ui/BoardItem'
 import IconAddRound from '@/shared/assets/icons/Add_round_fill.svg?react'
 import { useBoardStore } from '@/entities/board/model/store.ts'
-import { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTaskStore } from '@/entities/task/model/store.ts'
 import { toast } from 'sonner'
 import { useModalStore } from '@/shared/store/ModalStore.ts'
+import { useContextMenu } from '@/shared/hooks/useContextMenu.ts'
+import { ContextMenuTrigger } from '@/shared/ui/ContextMenu/ui/ContextMenuTrigger.tsx'
+import ContextMenu from '@/shared/ui/ContextMenu'
+import ContextMenuItem from '@/shared/ui/ContextMenu/ui/ContextMenuItem.tsx'
 
 const BoardList = () => {
   const list = useBoardStore((state) => state.boards)
@@ -17,6 +21,12 @@ const BoardList = () => {
   const fetchTasksForBoard = useBoardStore((state) => state.fetchTasksForBoard)
   const tasksCache = useBoardStore((state) => state.tasksByBoard)
   const openModal = useModalStore((state) => state.openModal)
+  const deleteBoard = useBoardStore((state) => state.removeBoard)
+
+  const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu()
+  const [selectedBoardIdForMenu, setSelectedBoardIdForMenu] = useState<
+    number | null
+  >(null)
 
   useEffect(() => {
     void fetchBoards()
@@ -46,18 +56,48 @@ const BoardList = () => {
     return <div>Loading...</div>
   }
 
+  const openContextMenu = (event: React.MouseEvent, boardId: number) => {
+    if (boardId === selectedBoardId) {
+      return
+    }
+    setSelectedBoardIdForMenu(boardId)
+    showContextMenu(event)
+  }
+
+  const handleDeleteBoard = () => {
+    if (
+      selectedBoardIdForMenu &&
+      window.confirm('Are you sure you want to delete this board?')
+    ) {
+      deleteBoard(selectedBoardIdForMenu)
+      hideContextMenu()
+      setSelectedBoardIdForMenu(null)
+    }
+  }
+
   return (
     <nav className="board-list">
       <ul className="board-list__items">
         {list.map((item) => (
-          <BoardItem
-            className="board-list__item"
-            item={item}
-            selectedId={selectedBoardId}
+          <ContextMenuTrigger
+            onContextMenu={(event) => openContextMenu(event, item.id)}
             key={item.id}
-          />
+          >
+            <BoardItem
+              className="board-list__item"
+              item={item}
+              selectedId={selectedBoardId}
+            />
+          </ContextMenuTrigger>
         ))}
       </ul>
+      <ContextMenu
+        isOpen={!!contextMenu}
+        position={contextMenu}
+        onClose={hideContextMenu}
+      >
+        <ContextMenuItem onClick={handleDeleteBoard}>Delete</ContextMenuItem>
+      </ContextMenu>
       <div className="board-list__actions">
         <button
           className="board-list__button"

@@ -13,6 +13,11 @@ import { useBoardStore } from '@/entities/board/model/store.ts'
 import { useModalStore } from '@/shared/store/ModalStore.ts'
 import { statusList as columns } from '@/shared/constants/statusList.ts'
 import Status from '@/shared/ui/Status'
+import ContextMenu from '@/shared/ui/ContextMenu'
+import ContextMenuItem from '@/shared/ui/ContextMenu/ui/ContextMenuItem.tsx'
+import { ContextMenuTrigger } from '@/shared/ui/ContextMenu/ui/ContextMenuTrigger.tsx'
+import React, { useState } from 'react'
+import { useContextMenu } from '@/shared/hooks/useContextMenu.ts'
 
 const Board = () => {
   const tasks = useTaskStore((state) => state.tasks)
@@ -20,6 +25,11 @@ const Board = () => {
   const selectedBoardId = useBoardStore((state) => state.selectedBoardId)
   const setTasksForBoard = useBoardStore((state) => state.setTasksForBoard)
   const openModal = useModalStore((state) => state.openModal)
+  const deleteTask = useTaskStore((state) => state.removeTask)
+  const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu()
+  const [selectedTaskIdForMenu, setSelectedTaskIdForMenu] = useState<
+    number | null
+  >(null)
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result
@@ -38,6 +48,22 @@ const Board = () => {
     if (selectedBoardId !== undefined) {
       const updatedTasks = useTaskStore.getState().tasks
       setTasksForBoard(selectedBoardId, updatedTasks)
+    }
+  }
+
+  const openContextMenu = (event: React.MouseEvent, boardId: number) => {
+    setSelectedTaskIdForMenu(boardId)
+    showContextMenu(event)
+  }
+
+  const handleDeleteTask = () => {
+    if (
+      selectedTaskIdForMenu &&
+      window.confirm('Are you sure you want to delete this task?')
+    ) {
+      deleteTask(selectedTaskIdForMenu)
+      hideContextMenu()
+      setSelectedTaskIdForMenu(null)
     }
   }
 
@@ -73,18 +99,24 @@ const Board = () => {
                               key={task.id}
                             >
                               {(provided) => (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
+                                <ContextMenuTrigger
+                                  onContextMenu={(event) =>
+                                    openContextMenu(event, task.id)
+                                  }
                                 >
-                                  <TaskCard
-                                    task={task}
-                                    onClick={() =>
-                                      openModal('editTask', { ...task })
-                                    }
-                                  />
-                                </div>
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                  >
+                                    <TaskCard
+                                      task={task}
+                                      onClick={() =>
+                                        openModal('editTask', { ...task })
+                                      }
+                                    />
+                                  </div>
+                                </ContextMenuTrigger>
                               )}
                             </Draggable>
                           ))
@@ -109,6 +141,13 @@ const Board = () => {
             })}
           </section>
         </DragDropContext>
+        <ContextMenu
+          isOpen={!!contextMenu}
+          position={contextMenu}
+          onClose={hideContextMenu}
+        >
+          <ContextMenuItem onClick={handleDeleteTask}>Delete</ContextMenuItem>
+        </ContextMenu>
       </div>
     </main>
   )
