@@ -18,11 +18,11 @@
     outline: none;
 
     @include hover {
-      border-color: var(--theme-text);
+      border-color: var(--color-accent);
     }
 
     &:focus-visible {
-      border-color: var(--theme-text);
+      border-color: var(--color-accent);
     }
 
     &--error {

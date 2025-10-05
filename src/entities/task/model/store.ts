@@ -2,12 +2,16 @@ import type { Status, Task } from '@/entities/task/model/types.ts'
 import { create } from 'zustand'
 
 import { createJSONStorage, persist } from 'zustand/middleware'
+import generateId from '@/shared/lib/generateId.ts'
 
 type TaskStore = {
   tasks: Task[]
   isLoading: boolean
   errorMessage: string | null
   setTasks: (tasks: Task[]) => void
+  addTask: (task: Task) => void
+  updateTask: (task: Task) => void
+  removeTask: (id: number) => void
 
   changeStatus: (taskId: number, newStatus: Status) => void
   getTaskById: (taskId: number | undefined) => Task | undefined
@@ -103,6 +107,33 @@ export const useTaskStore = create<TaskStore>()(
         tasks.splice(insertAtIndex, 0, movedTask)
 
         set({ tasks })
+      },
+
+      addTask: (task) => {
+        const resultTitle = task.title === '' ? 'Default task' : task.title
+
+        const newTask = {
+          ...task,
+          title: resultTitle,
+          id: generateId(),
+        }
+        const updated = [...get().tasks, newTask]
+
+        set({ tasks: updated })
+      },
+
+      updateTask: (updateTask) => {
+        const updated = get().tasks.map((task) =>
+          task.id === updateTask.id ? updateTask : task,
+        )
+
+        set({ tasks: updated })
+      },
+
+      removeTask: (taskId) => {
+        const filtered = get().tasks.filter(({ id }) => id !== taskId)
+
+        set({ tasks: filtered })
       },
     }),
     {

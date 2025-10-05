@@ -22,6 +22,7 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
   (props, ref) => {
     const { className, label, name, multiple = false, options, ...rest } = props
 
+    const bodyRef = useRef<HTMLDivElement>(null)
     const selectRef = useRef<HTMLSelectElement>(null)
     const setRef = (node: HTMLSelectElement) => {
       selectRef.current = node
@@ -64,6 +65,8 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
         }
       }
     }, [multiple])
+
+    useClickOutside(bodyRef, () => setIsOpen(false))
 
     const IDs = {
       originalControl: name,
@@ -128,8 +131,6 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
         firstSelectedIndex,
       )
 
-    useClickOutside(controlRef, () => setIsOpen(false))
-
     const isSingleMode = !multiple
 
     return (
@@ -159,7 +160,7 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
         >
           {optionList}
         </select>
-        <div className="field-select__body">
+        <div className="field-select__body" ref={bodyRef}>
           <div
             className={clsx('field-select__control', {
               'is-open': isOpen,

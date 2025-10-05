@@ -8,7 +8,7 @@ import FieldSelect from '@/shared/ui/FieldSelect'
 import tagList from '@/entities/board/model/tagList.ts'
 import { statusList as optionsForStatus } from '@/shared/constants/statusList.ts'
 import FieldImage from '@/shared/ui/FieldImage'
-import generateId from '@/shared/lib/generateId.ts'
+import { useTaskStore } from '@/entities/task/model/store.ts'
 
 type FormData = Task
 
@@ -29,14 +29,25 @@ const TaskEditForm = (props: TaskEditFormProps) => {
   })
   const modalType = useModalStore((state) => state.type)
   const closeModal = useModalStore((state) => state.closeModal)
+  const addTask = useTaskStore((state) => state.addTask)
+  const updateTask = useTaskStore((state) => state.updateTask)
+
+  const isCreateForm = modalType === 'createTask'
 
   const onSubmit = (data: FormData) => {
-    const resultTitle = data.title.trim() === '' ? 'Default task' : data.title
-    console.log('Create task:', {
+    const trimmedTitle = data.title.trim()
+    const correctData = {
       ...data,
-      title: resultTitle,
-      id: generateId(),
-    })
+      title: trimmedTitle,
+      status: isCreateForm ? 'backlog' : data.status,
+    }
+
+    if (isCreateForm) {
+      addTask(correctData)
+    } else if (initialData) {
+      updateTask({ ...initialData, ...correctData })
+    }
+
     reset()
     closeModal()
   }
@@ -58,7 +69,7 @@ const TaskEditForm = (props: TaskEditFormProps) => {
         className="task-edit-form__status"
         label="Status"
         options={optionsForStatus}
-        {...register('status', { disabled: modalType === 'createTask' })}
+        {...register('status', { disabled: isCreateForm })}
       />
       <FieldSelect
         className="task-edit-form__tags"
@@ -69,7 +80,7 @@ const TaskEditForm = (props: TaskEditFormProps) => {
       />
       <div className="task-edit-form__actions">
         <Button
-          label={modalType === 'createTask' ? 'Create task' : 'Save'}
+          label={isCreateForm ? 'Create task' : 'Save'}
           type="submit"
           mode="form-button"
         />

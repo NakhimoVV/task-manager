@@ -2,16 +2,16 @@ import { type RefObject, useEffect } from 'react'
 
 export const useClickOutside = (
   ref: RefObject<HTMLElement | null>,
-  onClickOutside: () => void,
+  callback: () => void,
 ) => {
   useEffect(() => {
     function handleClick(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        onClickOutside()
+        callback()
       }
     }
     document.addEventListener('mousedown', handleClick)
 
     return () => document.removeEventListener('mousedown', handleClick)
-  }, [ref, onClickOutside])
+  }, [ref, callback])
 }

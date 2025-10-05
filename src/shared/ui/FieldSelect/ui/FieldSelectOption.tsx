@@ -19,7 +19,6 @@ const FieldSelectOption = (props: FieldSelectOptionProps) => {
       role="option"
       aria-selected={isSelected}
       onClick={() => onClick(option.value)}
-      // aria-current={isActive ? 'true' : undefined}
     >
       {children}
     </div>
