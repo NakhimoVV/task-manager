@@ -8,7 +8,7 @@ import { useClickOutside } from '@/shared/hooks/useClickOutside.ts'
 import type { Option } from '@/shared/ui/FieldSelect/model/types.ts'
 import { TagItemOption } from '@/shared/ui/FieldSelect/ui/withFieldSelectOption.tsx'
 import FieldSelectOption from '@/shared/ui/FieldSelect/ui/FieldSelectOption.tsx'
-import { useListboxNavigation } from '@/shared/hooks/useListboxNavigation.ts'
+import { useListboxNavigation } from '@/shared/ui/FieldSelect/lib/useListboxNavigation.ts'
 
 type FieldSelectProps = {
   className?: string

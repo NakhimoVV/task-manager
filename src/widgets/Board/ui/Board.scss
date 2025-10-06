@@ -5,6 +5,7 @@
   overflow-y: auto;
 
   &__inner {
+    min-width: 942px;
     padding-block: 16px;
     padding-inline: 12px;
   }
@@ -15,7 +16,6 @@
     display: grid;
     grid-template-columns: repeat(var(--gridColumn), 1fr);
     column-gap: 12px;
-    min-width: 945px;
   }
 
   &__column {

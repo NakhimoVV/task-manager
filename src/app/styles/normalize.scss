@@ -149,6 +149,7 @@ a:where([class]) {
 button,
 label {
   cursor: pointer;
+  user-select: none;
 }
 
 /**

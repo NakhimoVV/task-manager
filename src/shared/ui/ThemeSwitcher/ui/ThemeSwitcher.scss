@@ -5,6 +5,10 @@
   background-color: var(--theme-bg-primary);
   border-radius: var(--border-radius-m);
 
+  &:has(&__input:focus-visible) {
+    @include focus-visible;
+  }
+
   @container sidebar (width < 150px) {
     background-color: transparent;
   }

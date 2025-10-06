@@ -1,4 +1,4 @@
-import '@/shared/styles'
+import '@/app/styles'
 import Sidebar from '@/widgets/Sidebar'
 import Board from '@/widgets/Board'
 import { Toaster } from 'sonner'
