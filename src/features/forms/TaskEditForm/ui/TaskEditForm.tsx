@@ -1,4 +1,3 @@
-import './TaskEditForm.scss'
 import Button from '@/shared/ui/Button'
 import { Controller, useForm } from 'react-hook-form'
 import type { Task } from '@/entities/task/model/types.ts'
@@ -53,7 +52,7 @@ const TaskEditForm = (props: TaskEditFormProps) => {
   }
 
   return (
-    <form className="task-edit-form" onSubmit={handleSubmit(onSubmit)}>
+    <form className="task-edit-form form" onSubmit={handleSubmit(onSubmit)}>
       <Controller
         render={({ field }) => <FieldImage {...field} />}
         name="background"
@@ -78,7 +77,7 @@ const TaskEditForm = (props: TaskEditFormProps) => {
         options={optionsForTags}
         {...register('tags')}
       />
-      <div className="task-edit-form__actions">
+      <div className="task-edit-form__actions form__actions">
         <Button
           label={isCreateForm ? 'Create task' : 'Save'}
           type="submit"

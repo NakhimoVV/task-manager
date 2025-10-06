@@ -106,11 +106,11 @@
   }
 
   &--multiple {
-    --colorText: var(--color-blue);
-    --colorBackground: var(--color-blue-light);
+    --dropdownRow: 4;
 
     .field-select__option {
-      text-transform: capitalize;
+      font-size: 14px;
+      font-weight: 700;
       color: var(--colorText);
       background-color: var(--colorBackground);
       border-radius: var(--border-radius-xs);
@@ -124,18 +124,13 @@
       }
     }
 
-    .field-select__control,
-    .field-select__original-control {
-      text-transform: capitalize; // Где-то Повторение
-    }
-
     .field-select__control {
       flex-wrap: wrap;
       gap: 8px;
     }
 
     .field-select__dropdown {
-      max-height: calc(40px * 4); // Магические числа !
+      max-height: calc(39.99px * var(--dropdownRow));
     }
   }
 }

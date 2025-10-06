@@ -52,14 +52,12 @@ $mobile-s: 480.98px;
 }
 
 @mixin hover($hasActiveEffectOnMobile: true) {
-  // выбираем устройства у которых есть эфект наведения курсора
   @media (any-hover: hover) {
     &:hover {
       @content
     }
   }
 
-  // а на устройствах где такой эффект не возможен - делаем кратковременый active
   @if $hasActiveEffectOnMobile { 
     @media (any-hover: none) {
       &:active {

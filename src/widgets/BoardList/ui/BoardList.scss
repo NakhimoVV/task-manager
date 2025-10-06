@@ -28,7 +28,6 @@
     @container sidebar (width < 190px) {
       justify-content: center;
 
-      // TODO: возможно стоит на мобилке скрывать верхнюю кнопку и лочить сужение
       & span {
         display: none;
       }

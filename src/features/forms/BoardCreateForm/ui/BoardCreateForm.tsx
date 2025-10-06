@@ -1,4 +1,3 @@
-import './BoardCreateForm.scss'
 import Button from '@/shared/ui/Button'
 import Field from '@/shared/ui/Field'
 import { useForm } from 'react-hook-form'
@@ -29,7 +28,7 @@ const BoardCreateForm = () => {
   }
 
   return (
-    <form className="board-create-form" onSubmit={handleSubmit(onSubmit)}>
+    <form className="board-create-form form" onSubmit={handleSubmit(onSubmit)}>
       <Field
         className="board-create-form__name"
         label="Board name"
@@ -43,7 +42,7 @@ const BoardCreateForm = () => {
         {...register('emoji')}
         value={emojiValue}
       />
-      <div className="board-create-form__actions">
+      <div className="board-create-form__actions form__actions">
         <Button label="Create board" type="submit" mode="form-button" />
         <Button
           label="Cancel"

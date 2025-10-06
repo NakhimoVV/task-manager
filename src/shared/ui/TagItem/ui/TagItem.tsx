@@ -2,18 +2,21 @@ import './TagItem.scss'
 import type { CSSProperties } from 'react'
 import tagColors from '@/entities/board/model/tagColors.ts'
 import type { Tag } from '@/entities/task/model/types.ts'
+import clsx from 'clsx'
 
 type TagItemProps = {
+  className?: string
   tag: Tag
+  as?: 'span' | 'li'
 }
 
 const TagItem = (props: TagItemProps) => {
-  const { tag, ...rest } = props
+  const { className, tag, as: HtmlTag = 'span', ...rest } = props
   const color = tagColors[tag]
 
   return (
-    <span
-      className="tag-item"
+    <HtmlTag
+      className={clsx(className, 'tag-item')}
       style={
         {
           '--colorText': color.text,
@@ -23,7 +26,7 @@ const TagItem = (props: TagItemProps) => {
       {...rest}
     >
       {tag}
-    </span>
+    </HtmlTag>
   )
 }
 

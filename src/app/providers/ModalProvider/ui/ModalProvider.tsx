@@ -1,7 +1,7 @@
 import Modal from '@/shared/ui/Modal'
 import { useModalStore } from '@/shared/store/ModalStore.ts'
-import BoardCreateForm from '@/widgets/BoardCreateForm'
-import TaskEditForm from '@/entities/task/ui/TaskEditForm'
+import BoardCreateForm from '@/features/forms/BoardCreateForm'
+import TaskEditForm from '@/features/forms/TaskEditForm'
 import type { Task } from '@/entities/task/model/types.ts'
 
 const ModalProvider = () => {

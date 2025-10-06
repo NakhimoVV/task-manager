@@ -18,7 +18,8 @@ h2, .h2 {
   font-weight: 700;
 }
 
-h4, .h4 {
+h3, .h3 {
+  font-size: 14px;
   font-weight: 500;
 }
 
@@ -46,4 +47,15 @@ a {
 
 :focus-visible {
   @include focus-visible;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+
+  &__actions {
+    display: inline-flex;
+    column-gap: 12px;
+  }
 }

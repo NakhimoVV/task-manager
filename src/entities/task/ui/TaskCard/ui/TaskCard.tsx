@@ -1,7 +1,7 @@
 import './TaskCard.scss'
 import type { Task } from '@/entities/task/model/types.ts'
-import tagColors from '@/entities/board/model/tagColors.ts'
-import { type CSSProperties } from 'react'
+import TagItem from '@/shared/ui/TagItem'
+
 type TaskCardProps = {
   task: Task
   onClick?: () => void
@@ -24,27 +24,17 @@ const TaskCard = (props: TaskCardProps) => {
           />
         </div>
       )}
-      <h4 className="task-card__title">{task.title}</h4>
-      <div className="task-card__tag-list">
-        {task.tags.map((tag) => {
-          const color = tagColors[tag]
-          // TODO: замена на TagItem
-          return (
-            <span
-              className="task-card__tag-item"
-              style={
-                {
-                  '--colorText': color.text,
-                  '--colorBackground': color.background,
-                } as CSSProperties
-              }
-              key={tag}
-            >
-              {tag}
-            </span>
-          )
-        })}
-      </div>
+      <h3 className="task-card__title">{task.title}</h3>
+      <ul className="task-card__tag-list">
+        {task.tags.map((tag) => (
+          <TagItem
+            className="task-card__tag-item"
+            tag={tag}
+            as="li"
+            key={tag}
+          />
+        ))}
+      </ul>
     </article>
   )
 }
