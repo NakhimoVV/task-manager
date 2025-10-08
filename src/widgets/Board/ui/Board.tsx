@@ -23,6 +23,9 @@ const Board = () => {
   const tasks = useTaskStore((state) => state.tasks)
   const moveTask = useTaskStore((state) => state.moveTask)
   const selectedBoardId = useBoardStore((state) => state.selectedBoardId)
+  const selectedBoardName = useBoardStore((state) =>
+    state.getSelectedBoardName(),
+  )
   const setTasksForBoard = useBoardStore((state) => state.setTasksForBoard)
   const openModal = useModalStore((state) => state.openModal)
   const deleteTask = useTaskStore((state) => state.removeTask)
@@ -71,6 +74,9 @@ const Board = () => {
     <main className="board">
       <div className="board__inner">
         <DragDropContext onDragEnd={onDragEnd}>
+          {selectedBoardName && (
+            <h2 className="visually-hidden">{selectedBoardName}</h2>
+          )}
           <section className="board__body">
             {columns.map(({ value: key, label: title }) => {
               const filteredTasks = tasks.filter((task) => task.status === key)

@@ -29,8 +29,10 @@ const ModalProvider = () => {
       break
   }
 
-  function isTask(obj: any): obj is Task {
-    return typeof obj === 'object' && 'status' in obj
+  function isTask(obj: unknown): obj is Task {
+    if (typeof obj !== 'object' || obj === null) return false
+
+    return 'status' in obj
   }
 
   return (

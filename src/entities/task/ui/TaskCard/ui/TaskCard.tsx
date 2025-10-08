@@ -9,7 +9,7 @@ type TaskCardProps = {
 
 const TaskCard = (props: TaskCardProps) => {
   const { task, onClick } = props
-
+  // Сделать карточку интерактивной с помощью role/ button
   return (
     <article className="task-card" onClick={onClick}>
       {task.background && (

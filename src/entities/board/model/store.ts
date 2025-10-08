@@ -21,6 +21,7 @@ type BoardStore = {
   getTasksForBoard: (boardId: number) => Task[] | undefined
   addBoard: (formData: BoardFormData) => void
   removeBoard: (id: number) => void
+  getSelectedBoardName: () => string
 }
 
 export const useBoardStore = create<BoardStore>()(
@@ -106,6 +107,15 @@ export const useBoardStore = create<BoardStore>()(
         const filtered = get().boards.filter((b) => b.id !== id)
 
         set({ boards: filtered })
+      },
+
+      getSelectedBoardName: () => {
+        const { boards, selectedBoardId } = get()
+
+        return (
+          boards.find((board) => board.id === selectedBoardId)?.name ||
+          'No Board selected'
+        )
       },
     }),
     {

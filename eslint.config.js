@@ -17,11 +17,13 @@ export default defineConfig([
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
-      'plugin:jsx-a11y/recommended',
       prettier,
     ],
+    rules: {
+      ...jsxA11y.configs.recommended.rules,
+      ...reactRefresh.configs.vite.rules,
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,

@@ -35,6 +35,7 @@ const RadioGroup = (props: RadioGroupProps) => {
               <img
                 className="radio-group__image"
                 src={logo.image}
+                alt=""
                 width={32}
                 height={32}
               />
