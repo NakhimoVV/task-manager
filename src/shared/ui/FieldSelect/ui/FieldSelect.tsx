@@ -209,7 +209,11 @@ const FieldSelect = forwardRef<HTMLSelectElement, FieldSelectProps>(
                 }
 
                 return multiple ? (
-                  <TagItemOption key={option.value} {...commonAttrs} />
+                  <TagItemOption
+                    key={option.value}
+                    tag={option.label as Tag}
+                    {...commonAttrs}
+                  />
                 ) : (
                   <FieldSelectOption key={option.value} {...commonAttrs}>
                     <Status title={option.label} mode={option.value} />

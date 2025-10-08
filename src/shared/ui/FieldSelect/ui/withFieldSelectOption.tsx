@@ -20,7 +20,6 @@ const withFieldSelectOption =
         role="option"
         aria-selected={isSelected}
         onClick={() => onClick(option.value)}
-        tag={option.value}
         {...(rest as P)}
       />
     )
