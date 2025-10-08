@@ -19,24 +19,22 @@ const BoardItem = (props: BoardItemProps) => {
   }
 
   return (
-    <li className={clsx(className, 'board-item')}>
-      <button
-        className={clsx('board-item__button', {
-          'is-selected': selectedId === item.id,
-        })}
-        onClick={handleClick}
-      >
-        <img
-          className="board-item__logo"
-          src={getImageByEmoji(item.emoji)}
-          alt={item.emoji}
-          width={32}
-          height={32}
-          loading="lazy"
-        />
-        <span className="board-item__name">{item.name}</span>
-      </button>
-    </li>
+    <button
+      className={clsx(className, 'board-item', {
+        'is-selected': selectedId === item.id,
+      })}
+      onClick={handleClick}
+    >
+      <img
+        className="board-item__logo"
+        src={getImageByEmoji(item.emoji)}
+        alt={item.emoji}
+        width={32}
+        height={32}
+        loading="lazy"
+      />
+      <span className="board-item__name">{item.name}</span>
+    </button>
   )
 }
 

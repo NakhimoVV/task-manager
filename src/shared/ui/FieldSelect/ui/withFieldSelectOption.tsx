@@ -6,7 +6,8 @@ import type { OptionProps } from '@/shared/ui/FieldSelect/model/types.ts'
 type WithOptionProps = OptionProps
 
 const withFieldSelectOption =
-  (Component: ComponentType<any>) => (props: WithOptionProps) => {
+  <P extends object>(Component: ComponentType<P>) =>
+  (props: WithOptionProps & Omit<P, keyof WithOptionProps>) => {
     const { option, isSelected, onClick, isActive, ...rest } = props
 
     return (
@@ -20,7 +21,7 @@ const withFieldSelectOption =
         aria-selected={isSelected}
         onClick={() => onClick(option.value)}
         tag={option.value}
-        {...rest}
+        {...(rest as P)}
       />
     )
   }

@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react'
 type Theme = 'light' | 'dark'
 
 export const useTheme = () => {
-  const localStorageTheme = localStorage.getItem('theme') as Theme
-  const [theme, setTheme] = useState<Theme>(localStorageTheme ?? '')
+  const [theme, setTheme] = useState<Theme>('light')
 
   useEffect(() => {
+    const localStorageTheme = localStorage.getItem('theme') as Theme
+
     if (localStorageTheme) {
       setTheme(localStorageTheme)
       document.documentElement.setAttribute('data-theme', localStorageTheme)

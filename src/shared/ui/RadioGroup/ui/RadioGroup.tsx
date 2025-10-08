@@ -38,6 +38,7 @@ const RadioGroup = (props: RadioGroupProps) => {
                 alt=""
                 width={32}
                 height={32}
+                loading="lazy"
               />
             </span>
           </label>

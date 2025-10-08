@@ -51,7 +51,7 @@ export const useBoardStore = create<BoardStore>()(
 
       fetchTasksForBoard: async (boardId) => {
         const selectedBoard = get().boards.find((b) => b.id === boardId)
-        if (!selectedBoard) return
+        if (!selectedBoard) {return}
 
         if (!selectedBoard.link) {
           // Решение только для этого ТЗ

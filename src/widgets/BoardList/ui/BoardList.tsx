@@ -80,14 +80,12 @@ const BoardList = () => {
       <ul className="board-list__items">
         {list.map((item) => (
           <ContextMenuTrigger
+            className="board-list__item"
+            as="li"
             onContextMenu={(event) => openContextMenu(event, item.id)}
             key={item.id}
           >
-            <BoardItem
-              className="board-list__item"
-              item={item}
-              selectedId={selectedBoardId}
-            />
+            <BoardItem item={item} selectedId={selectedBoardId} />
           </ContextMenuTrigger>
         ))}
       </ul>

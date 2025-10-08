@@ -1,26 +1,24 @@
 .board-item {
-  &__button {
-    display: inline-flex;
-    align-items: center;
-    column-gap: 10px;
-    width: 100%;
-    padding: 6px;
-    background-color: transparent;
-    border: 2px solid transparent;
-    border-radius: var(--border-radius-l);
-    transition-duration: var(--transition-duration);
+  display: inline-flex;
+  align-items: center;
+  column-gap: 10px;
+  width: 100%;
+  padding: 6px;
+  background-color: transparent;
+  border: 2px solid transparent;
+  border-radius: var(--border-radius-l);
+  transition-duration: var(--transition-duration);
 
-    @container sidebar (width < 190px) {
-      justify-content: center;
-    }
+  @container sidebar (width < 190px) {
+    justify-content: center;
+  }
 
-    @include hover {
-      border-color: var(--color-accent);
-    }
+  @include hover {
+    border-color: var(--color-accent);
+  }
 
-    &.is-selected {
-      border-color: var(--color-accent);
-    }
+  &.is-selected {
+    border-color: var(--color-accent);
   }
 
   @container sidebar (width < 190px) {

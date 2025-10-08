@@ -6,7 +6,7 @@ export async function getTasks(
 ): Promise<TasksFromApi> {
   const res = await fetch(url)
 
-  if (!res.ok) throw new Error(`Failed to fetch ${boardName} tasks!`)
+  if (!res.ok) {throw new Error(`Failed to fetch ${boardName} tasks!`)}
 
   return res.json()
 }

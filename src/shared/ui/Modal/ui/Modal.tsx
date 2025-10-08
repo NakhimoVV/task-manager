@@ -13,10 +13,13 @@ type ModalProps = {
 const Modal = (props: ModalProps) => {
   const { isOpen, title, onClose, children } = props
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const dialog = dialogRef.current
 
   useEffect(() => {
-    if (!dialog) return
+    const dialog = dialogRef.current
+
+    if (!dialog) {
+      return
+    }
 
     if (isOpen && !dialog.open) {
       dialog.showModal()
@@ -36,7 +39,7 @@ const Modal = (props: ModalProps) => {
         onClose()
       }}
       onClick={(event) => {
-        if (event.target === dialog) {
+        if (event.target === dialogRef.current) {
           onClose()
         }
       }}

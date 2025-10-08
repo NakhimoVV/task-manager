@@ -80,7 +80,7 @@ export const useListboxNavigation = (
           break
       }
     },
-    [isOpen, setIsOpen, activeIndex, onSelect],
+    [isOpen, setIsOpen, activeIndex, onSelect, options, scrollToActiveIndex],
   )
 
   return { activeIndex, handleKeyDown, controlRef, dropdownRef }
