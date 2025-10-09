@@ -1,10 +1,11 @@
 .field-image {
   position: relative;
-  min-width: 456px;
-  min-height: 120px;
+  width: 100%;
   background-color: var(--color-grey-light);
+  background-position: center;
   background-size: cover;
   border-radius: var(--border-radius-s);
+  aspect-ratio: 19 / 5;
   background-repeat: no-repeat;
   overflow: hidden;
 
