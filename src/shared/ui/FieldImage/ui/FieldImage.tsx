@@ -1,14 +1,16 @@
 import './FieldImage.scss'
 import Button from '@/shared/ui/Button'
 import { randomCover } from '@/shared/lib/randomCover.ts'
+import clsx from 'clsx'
 
 type FieldImageProps = {
   value: string | null
   onChange: (value: string | null) => void
+  className?: string
 }
 
 const FieldImage = (props: FieldImageProps) => {
-  const { value, onChange } = props
+  const { value, onChange, className } = props
 
   const handleRandom = () => {
     const newBackground = randomCover()
@@ -21,7 +23,7 @@ const FieldImage = (props: FieldImageProps) => {
 
   return (
     <div
-      className="field-image"
+      className={clsx(className, 'field-image')}
       style={value ? { backgroundImage: `url(${value})` } : undefined}
     >
       {!value && <span className="field-image__plug">No cover photo</span>}

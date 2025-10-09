@@ -1,3 +1,4 @@
+import './TaskEditForm.scss'
 import Button from '@/shared/ui/Button'
 import { Controller, useForm } from 'react-hook-form'
 import type { Task } from '@/entities/task/model/types.ts'
@@ -54,7 +55,9 @@ const TaskEditForm = (props: TaskEditFormProps) => {
   return (
     <form className="task-edit-form form" onSubmit={handleSubmit(onSubmit)}>
       <Controller
-        render={({ field }) => <FieldImage {...field} />}
+        render={({ field }) => (
+          <FieldImage className="task-edit-form__image" {...field} />
+        )}
         name="background"
         control={control}
       />

@@ -51,6 +51,12 @@ $mobile-s: 480.98px;
   }
 }
 
+@mixin landscape {
+  @media (orientation: landscape) {
+    @content;
+  }
+}
+
 @mixin hover($hasActiveEffectOnMobile: true) {
   @media (any-hover: hover) {
     &:hover {

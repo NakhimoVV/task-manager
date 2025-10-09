@@ -55,8 +55,17 @@ a {
   row-gap: 24px;
   max-width: 456px;
 
+  @include landscape {
+    gap: 10px;
+    max-width: none;
+  }
+
   &__actions {
     display: inline-flex;
     column-gap: 12px;
+
+    @include landscape {
+      align-self: center;
+    }
   }
 }

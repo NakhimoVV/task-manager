@@ -1,0 +1,33 @@
+.task-edit-form {
+  @include landscape {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'image status'
+      'image tags'
+      'title title'
+      'actions actions';
+
+    &__image.field-image {
+      grid-area: image;
+      aspect-ratio: auto;
+    }
+
+    &__title {
+      grid-area: title;
+    }
+
+    &__status {
+      grid-area: status;
+    }
+
+    &__tags {
+      grid-area: tags;
+    }
+
+    &__actions {
+      grid-area: actions;
+      justify-self: center;
+    }
+  }
+}
