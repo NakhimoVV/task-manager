@@ -52,7 +52,7 @@ $mobile-s: 480.98px;
 }
 
 @mixin landscape {
-  @media (orientation: landscape) {
+  @media (height <= $mobile-s) {
     @content;
   }
 }

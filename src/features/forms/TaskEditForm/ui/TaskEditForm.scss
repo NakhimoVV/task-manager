@@ -3,10 +3,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      'image status'
-      'image tags'
-      'title title'
-      'actions actions';
+    'image status'
+    'image tags'
+    'title title'
+    'actions actions';
 
     &__image.field-image {
       grid-area: image;
@@ -28,6 +28,10 @@
     &__actions {
       grid-area: actions;
       justify-self: center;
+
+      & button {
+        padding-block: 0;
+      }
     }
   }
 }

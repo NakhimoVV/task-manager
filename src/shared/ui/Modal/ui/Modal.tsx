@@ -23,6 +23,11 @@ const Modal = (props: ModalProps) => {
 
     if (isOpen && !dialog.open) {
       dialog.showModal()
+
+      const firstFieldElement = dialog.querySelector<HTMLInputElement>('input')
+      if (firstFieldElement) {
+        firstFieldElement.focus()
+      }
     } else if (!isOpen && dialog.open) {
       dialog.close()
     }
